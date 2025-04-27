@@ -1,12 +1,11 @@
-/* ───────── Section 10 – 4-Day Kids Experience (optional) ───────── */
+import { useState, useEffect } from "react";
 import { FiClock, FiTarget, FiActivity, FiGift, FiUser } from "react-icons/fi";
 
-/* brand palette (or import your central tokens) */
-const headingClr  = "#7e2c21";
-const bodyClr     = "#1d2556";
-const creamBg     = "#fffaf4";
-const cardBg      = "#ffffff";
-const chipBg      = "#fdeedd";
+const headingClr = "#7e2c21";
+const bodyClr = "#1d2556";
+const creamBg = "#fffaf4";
+const cardBg = "#ffffff";
+const chipBg = "#fdeedd";
 const borderLight = "#eee";
 
 const points = [
@@ -38,30 +37,42 @@ const points = [
 ];
 
 export default function Section10() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // run immediately
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <section style={{ padding: "96px 0 120px", background: creamBg }}>
-      {/* Heading & intro */}
+    <section style={{ padding: isMobile ? "64px 16px" : "96px 0 120px", background: creamBg }}>
+      {/* Heading */}
       <h2
         style={{
           textAlign: "center",
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
-          fontSize: "38px",
+          fontSize: isMobile ? "32px" : "38px",
           color: headingClr,
           margin: 0,
+          paddingInline: isMobile ? "12px" : "0",
         }}
       >
-        Try the 1-Day Kids Experience&nbsp;
+        Try the 1-Day Kids Experience
       </h2>
 
+      {/* Paragraph */}
       <p
         style={{
           maxWidth: "750px",
           margin: "24px auto 72px",
           textAlign: "center",
-          fontSize: "18px",
+          fontSize: isMobile ? "16px" : "18px",
           lineHeight: 1.6,
           color: bodyClr,
+          paddingInline: isMobile ? "12px" : "0",
         }}
       >
         For parents who are curious to see the method in action, we're offering a special
@@ -69,14 +80,14 @@ export default function Section10() {
         fun, eye-opening, and practical — using our Happi360 approach.
       </p>
 
-      {/* Grid of cards */}
+      {/* Grid of Cards */}
       <div
         style={{
           display: "grid",
           gap: "20px",
-          gridTemplateColumns: "repeat(3, 1fr)",   // 👈 force 3 cards per row
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
           width: "90%",
-          maxWidth: "750px",
+          maxWidth: "1000px",
           marginInline: "auto",
         }}
       >
@@ -86,23 +97,25 @@ export default function Section10() {
             style={{
               background: cardBg,
               borderRadius: "16px",
-              padding: "38px 30px",
+              padding: isMobile ? "28px 20px" : "38px 30px",
               border: `1px solid ${borderLight}`,
               display: "flex",
               flexDirection: "column",
               gap: "12px",
+              alignItems: "center",
+              textAlign: "center",
             }}
           >
             <div
               style={{
-                width: "32px",
-                height: "32px",
+                width: "48px",
+                height: "48px",
                 borderRadius: "50%",
                 background: chipBg,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "28px",
+                fontSize: "24px",
                 color: headingClr,
               }}
             >
@@ -113,7 +126,7 @@ export default function Section10() {
               style={{
                 fontFamily: "'Playfair Display', serif",
                 fontWeight: 700,
-                fontSize: "14px",
+                fontSize: "16px",
                 color: headingClr,
                 margin: 0,
               }}
@@ -128,24 +141,24 @@ export default function Section10() {
         ))}
       </div>
 
-      {/* Note banner */}
+      {/* Note Banner */}
       <div
         style={{
           marginTop: "40px",
           background: cardBg,
           borderRadius: "16px",
-          padding: "36px 32px",
+          padding: isMobile ? "32px 24px" : "36px 32px",
           maxWidth: "600px",
           marginInline: "auto",
           textAlign: "center",
           boxShadow: "0 6px 14px rgba(0,0,0,.05)",
-          fontSize: "16px",
+          fontSize: isMobile ? "15px" : "16px",
           lineHeight: 1.6,
           color: headingClr,
+          marginBottom: isMobile ? "60px" : "0",
         }}
       >
-        This optional program is open only to event attendees. Limited slots available —
-        more details will be shared during the session.
+        This optional program is open only to event attendees. Limited slots available — more details will be shared during the session.
       </div>
     </section>
   );

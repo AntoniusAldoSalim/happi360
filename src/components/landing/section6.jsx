@@ -1,10 +1,10 @@
-/* ───────── Section 6 – Guest experts ───────── */
-import kulImg   from "../../assets/landing/panelist/kul.jpg";     // update paths
-import praewImg from "../../assets/landing/panelist/praew.jpg";
-import careImg  from "../../assets/landing/panelist/care.jpg";
+import { useState, useEffect } from "react";
 
-/* brand tokens */
-const navy         = "#1d2556";
+import kulImg from "../../assets/landing/panelist/kul.jpg";
+import praewImg from "../../assets/landing/panelist/praew.jpg";
+import careImg from "../../assets/landing/panelist/care.jpg";
+
+const navy = "#1d2556";
 const accentColour = "#d29c4b";
 
 const experts = [
@@ -38,27 +38,41 @@ const experts = [
 ];
 
 export default function Section6() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // initialize immediately
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <section style={{ padding: "96px 0 120px", background: "#ffffff" }}>
-      {/* heading */}
+    <section
+      style={{
+        padding: isMobile ? "64px 16px" : "96px 0 120px",
+        background: "#ffffff",
+      }}
+    >
+      {/* Heading */}
       <h2
         style={{
           textAlign: "center",
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
-          fontSize: "38px",
+          fontSize: isMobile ? "32px" : "38px",
           lineHeight: 1.3,
           color: navy,
           margin: 0,
           maxWidth: "800px",
           marginInline: "auto",
+          paddingInline: isMobile ? "12px" : "0",
         }}
       >
-        For this seminar, we have invited leading experts in child
-        development. You'll get to meet them in person.
+        For this seminar, we have invited leading experts in child development. You'll get to meet them in person.
       </h2>
 
-      {/* accent bar */}
+      {/* Accent Bar */}
       <div
         style={{
           margin: "40px auto 72px",
@@ -69,7 +83,7 @@ export default function Section6() {
         }}
       />
 
-      {/* expert cards */}
+      {/* Expert Cards */}
       <div
         style={{
           width: "90%",
@@ -77,7 +91,7 @@ export default function Section6() {
           marginInline: "auto",
           display: "flex",
           flexDirection: "column",
-          gap: "72px",
+          gap: isMobile ? "48px" : "72px",
         }}
       >
         {experts.map(({ img, name, title, bio }) => (
@@ -85,12 +99,13 @@ export default function Section6() {
             key={name}
             style={{
               display: "flex",
-              gap: "48px",
-              alignItems: "flex-start",
-              flexWrap: "wrap",
+              flexDirection: isMobile ? "column" : "row",
+              gap: isMobile ? "24px" : "48px",
+              alignItems: isMobile ? "center" : "flex-start",
+              textAlign: isMobile ? "center" : "start",
             }}
           >
-            {/* photo */}
+            {/* Photo */}
             <img
               src={img}
               alt={name}
@@ -103,15 +118,15 @@ export default function Section6() {
               }}
             />
 
-            {/* text block */}
+            {/* Text block */}
             <div style={{ flex: 1, minWidth: "260px" }}>
               <h3
                 style={{
                   fontFamily: "'Playfair Display', serif",
                   fontWeight: 700,
-                  fontSize: "26px",
+                  fontSize: isMobile ? "22px" : "26px",
                   color: navy,
-                  margin: 0,
+                  margin: isMobile ? "16px 0 8px" : "0",
                 }}
               >
                 {name}
@@ -121,7 +136,7 @@ export default function Section6() {
                 style={{
                   fontWeight: 600,
                   margin: "8px 0 24px",
-                  fontSize: "18px",
+                  fontSize: isMobile ? "16px" : "18px",
                   color: navy,
                   lineHeight: 1.45,
                 }}
@@ -131,7 +146,7 @@ export default function Section6() {
 
               <p
                 style={{
-                  fontSize: "17px",
+                  fontSize: isMobile ? "15px" : "17px",
                   lineHeight: 1.6,
                   color: "#38445b",
                   margin: 0,

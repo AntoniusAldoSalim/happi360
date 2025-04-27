@@ -1,53 +1,62 @@
-/* ───────── Section 9 – Kids’ activities care block ───────── */
-import kidsImg from "../../assets/landing/Happy.jpg";        // update path if needed
+import { useState, useEffect } from "react";
+import kidsImg from "../../assets/landing/Happy.jpg";
 import { FiStar, FiAward, FiUsers, FiHeart } from "react-icons/fi";
 
-/* palette (or import from your shared tokens) */
-const navy        = "#1d2556";
-const creamBg     = "#f7f8fc";
-const cardBg      = "#ffffff";
-const chipBg      = "#fdeedd";          // soft peach circle behind icons
+const navy = "#1d2556";
+const creamBg = "#f7f8fc";
+const cardBg = "#ffffff";
+const chipBg = "#fdeedd";
 const borderLight = "#ececec";
-const quoteColor  = "#5560a3";
+const quoteColor = "#5560a3";
 
 export default function Section9() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // initialize immediately
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <section
       style={{
         width: "100%",
-        padding: "96px 0 120px",
+        padding: isMobile ? "64px 16px" : "96px 0 120px",
         background: creamBg,
       }}
     >
-      {/* heading & intro */}
+      {/* Heading */}
       <h2
         style={{
           textAlign: "center",
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
-          fontSize: "38px",
+          fontSize: isMobile ? "32px" : "38px",
           color: navy,
           margin: 0,
+          paddingInline: isMobile ? "12px" : "0",
         }}
       >
         Let your children join the fun!
       </h2>
 
-      {/* two-column layout */}
+      {/* Two-column layout */}
       <div
         style={{
           width: "90%",
-          maxWidth: "600px",
-          marginTop: '60px',
+          maxWidth: "900px",
+          marginTop: isMobile ? "32px" : "60px",
           marginInline: "auto",
-          display: "grid",
-          gap: "48px",
-          gridTemplateColumns: "repeat(auto-fit, minmax(460px, 1fr))",
-          alignItems: "start",
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          gap: "32px",
+          alignItems: "center",
         }}
       >
-        {/* left image */}
-        <div>
+        {/* Image */}
+        <div style={{ flex: 1 }}>
           <img
             src={kidsImg}
             alt="Children activities"
@@ -60,26 +69,28 @@ export default function Section9() {
           />
         </div>
 
+        {/* (Optional) Right side if you add activities cards later */}
+        {/* <div style={{ flex: 1 }}>...</div> */}
       </div>
 
-      {/* quote banner */}
+      {/* Quote banner */}
       <div
         style={{
-          marginTop: "40px",
+          marginTop: isMobile ? "32px" : "40px",
           maxWidth: "900px",
           marginInline: "auto",
           background: cardBg,
           borderRadius: "16px",
-          padding: "56px 32px",
+          padding: isMobile ? "32px 24px" : "56px 32px",
           textAlign: "center",
           boxShadow: "0 6px 14px rgba(0,0,0,.05)",
-        //   fontStyle: "italic",
-          fontSize: "20px",
+          fontSize: isMobile ? "18px" : "20px",
           lineHeight: 1.6,
           color: quoteColor,
+          fontFamily: "'Playfair Display', serif",
         }}
       >
-        While you're attending the seminar, your child (ages 6-12) will be participating in activities with Milchel alumni - individuals who went through Happi360 program. Your child will have fun and we guarantee that they will have a blast and go back home feeling rejuvenated!
+        While you're attending the seminar, your child (ages 6–12) will be participating in activities with Milchel alumni — individuals who went through the Happi360 program. Your child will have fun and we guarantee that they will go home feeling rejuvenated!
       </div>
     </section>
   );

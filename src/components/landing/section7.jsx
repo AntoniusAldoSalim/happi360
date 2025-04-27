@@ -1,19 +1,16 @@
-/* ───────── Section 7 – Alumni voices (no ageRole) ───────── */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import amImg  from "../../assets/landing/section7/am.jpg";
-import peImg  from "../../assets/landing/section7/p.jpg";
+import amImg from "../../assets/landing/section7/am.jpg";
+import peImg from "../../assets/landing/section7/p.jpg";
 import oakImg from "../../assets/landing/section7/oak.jpg";
 import pepImg from "../../assets/landing/section7/pep.jpg";
-import coverImg from "../../assets/landing/section7/friends.jpg"; // header image
+import coverImg from "../../assets/landing/section7/friends.jpg";
 
-/* palette */
 const headingColour = "#7e2c21";
-const bodyNavy      = "#a36253";
-const cardBg        = "#ffffff";
-const quoteMark     = "#d7c9b8";
+const bodyNavy = "#a36253";
+const cardBg = "#ffffff";
+const quoteMark = "#d7c9b8";
 
-/* testimonials (no ageRole now) */
 const testimonials = [
   {
     img: amImg,
@@ -43,30 +40,38 @@ const testimonials = [
     name: "Thornthun Kitjasateanphun (Pep)",
     initial: "T",
   },
-  /* add more objects here if needed */
 ];
 
 export default function Section7() {
   const [expanded, setExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const visible = expanded ? testimonials : testimonials.slice(0, 3);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // initialize immediately
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <section
       style={{
         width: "100%",
-        padding: "96px 0 120px",
+        padding: isMobile ? "64px 16px" : "96px 0 120px",
         background: "#fcf9f4",
       }}
     >
-      {/* heading & intro */}
+      {/* Heading */}
       <h2
         style={{
           textAlign: "center",
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
-          fontSize: "38px",
+          fontSize: isMobile ? "32px" : "38px",
           color: headingColour,
           margin: 0,
+          paddingInline: isMobile ? "12px" : "0",
         }}
       >
         Voices of Our Grown-Up Students
@@ -77,22 +82,23 @@ export default function Section7() {
           textAlign: "center",
           maxWidth: "780px",
           margin: "24px auto 56px",
-          fontSize: "18px",
+          fontSize: isMobile ? "16px" : "18px",
           lineHeight: 1.6,
           color: bodyNavy,
+          paddingInline: isMobile ? "12px" : "0",
         }}
       >
         The true impact of the Happi360 method is reflected in the lives of those who grew up
         with it. Here's what some alumni have to say — years after leaving the program.
       </p>
 
-      {/* illustrative image */}
+      {/* Cover Image */}
       <img
         src={coverImg}
         alt="Alumni friends together"
         style={{
           display: "block",
-          width: "340px",
+          width: isMobile ? "260px" : "340px",
           maxWidth: "90%",
           marginInline: "auto",
           borderRadius: "12px",
@@ -100,13 +106,13 @@ export default function Section7() {
         }}
       />
 
-      {/* testimonial grid */}
+      {/* Testimonials Grid */}
       <div
         style={{
-          marginTop: "72px",
+          marginTop: isMobile ? "48px" : "72px",
           display: "grid",
-          gap: "32px",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+          gap: "24px",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(300px, 1fr))",
           width: "90%",
           maxWidth: "1100px",
           marginInline: "auto",
@@ -118,7 +124,7 @@ export default function Section7() {
             style={{
               background: cardBg,
               borderRadius: "16px",
-              padding: "48px 40px 32px",
+              padding: isMobile ? "32px 24px" : "48px 40px 32px",
               position: "relative",
               boxShadow: "0 6px 14px rgba(0,0,0,.05)",
               display: "flex",
@@ -126,7 +132,7 @@ export default function Section7() {
               gap: "24px",
             }}
           >
-            {/* decorative quote mark */}
+            {/* Decorative quote mark */}
             <span
               style={{
                 position: "absolute",
@@ -141,7 +147,7 @@ export default function Section7() {
               99
             </span>
 
-            {/* photo (optional) */}
+            {/* Avatar */}
             {img && (
               <img
                 src={img}
@@ -156,20 +162,23 @@ export default function Section7() {
               />
             )}
 
+            {/* Quote */}
             <p
               style={{
                 fontStyle: "italic",
-                fontSize: "18px",
+                fontSize: isMobile ? "16px" : "18px",
                 lineHeight: 1.6,
                 color: bodyNavy,
                 margin: 0,
                 whiteSpace: "pre-line",
+                textAlign: "center",
               }}
             >
               {quote}
             </p>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+            {/* Name */}
+            <div style={{ display: "flex", alignItems: "center", gap: "14px", justifyContent: "center" }}>
               <div
                 style={{
                   width: "36px",
@@ -191,7 +200,7 @@ export default function Section7() {
         ))}
       </div>
 
-      {/* show-more toggle */}
+      {/* Show More Button */}
       {testimonials.length > 3 && (
         <div style={{ textAlign: "center", marginTop: "48px" }}>
           <button
@@ -210,20 +219,21 @@ export default function Section7() {
         </div>
       )}
 
-      {/* closing CTA banner */}
+      {/* CTA Banner */}
       <div
         style={{
-          marginTop: "96px",
+          marginTop: isMobile ? "64px" : "96px",
           background: cardBg,
           borderRadius: "16px",
-          padding: "48px 32px",
+          padding: isMobile ? "32px 24px" : "48px 32px",
           maxWidth: "900px",
           marginInline: "auto",
           textAlign: "center",
           boxShadow: "0 6px 14px rgba(0,0,0,.05)",
-          fontSize: "18px",
+          fontSize: isMobile ? "16px" : "18px",
           lineHeight: 1.6,
           color: bodyNavy,
+          marginBottom: isMobile ? "40px" : "0",
         }}
       >
         Experience the same transformative approach that has shaped these remarkable

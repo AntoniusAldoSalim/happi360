@@ -1,66 +1,79 @@
+import { useState, useEffect } from "react";
 import section2Img from "../../assets/section2.jpg"; 
-// If not, recreate the two colour values locally:
-const headingColour   = "#7e2c21";   // deep reddish-brown
-const accentColour    = "#d29c4b";   // warm ochre underline
+
+const headingColour = "#7e2c21"; // deep reddish-brown
+const accentColour = "#d29c4b";  // warm ochre underline
 
 export default function Section2() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // initialize immediately
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <section
       style={{
         width: "100%",
-        padding: "96px 0 120px",
+        padding: isMobile ? "64px 16px" : "96px 0 120px",
         background: "linear-gradient(#fffefb 0%, #fff 80%)",
       }}
     >
-      {/*  Section heading  */}
+      {/* Section heading */}
       <h2
         style={{
           textAlign: "center",
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
-          fontSize: "56px",
+          fontSize: isMobile ? "38px" : "56px",
           color: headingColour,
           margin: 0,
+          paddingInline: "12px",
         }}
       >
         It takes a village to raise a child
       </h2>
 
-      {/*  Two-column content row  */}
+      {/* Two-column content */}
       <div
         style={{
-          marginTop: "56px",
+          marginTop: isMobile ? "32px" : "56px",
           display: "flex",
+          flexDirection: isMobile ? "column" : "row",
           justifyContent: "center",
-          gap: "64px",
+          alignItems: "center",
+          gap: isMobile ? "32px" : "64px",
           maxWidth: "1180px",
           marginInline: "auto",
-          alignItems: "center",
+          paddingInline: isMobile ? "12px" : "0",
         }}
       >
-        {/* Left - image */}
+        {/* Left - Image */}
         <img
           src={section2Img}
           alt="Child"
           style={{
-            width: "480px",
+            width: isMobile ? "100%" : "480px",
             maxWidth: "100%",
             borderRadius: "16px",
             objectFit: "cover",
           }}
         />
 
-        {/* Right */}
+        {/* Right - Text */}
         <div
           style={{
             maxWidth: "560px",
-            fontSize: "22px",
+            fontSize: isMobile ? "18px" : "22px",
             lineHeight: 1.5,
             color: "#38445b",
-            textAlign: "center",
+            textAlign: isMobile ? "center" : "start",
             display: "flex",
             flexDirection: "column",
-            gap: "32px",
+            gap: "24px",
           }}
         >
           <p>
@@ -77,25 +90,36 @@ export default function Section2() {
       </div>
 
       {/* Accent underline */}
-      <div style={{
+      <div
+        style={{
           width: "120px",
           height: "4px",
           background: accentColour,
           margin: "72px auto 0",
-          borderRadius: "4px",}}
-       />
+          borderRadius: "4px",
+        }}
+      />
 
+      {/* Bullet points */}
       <div
         style={{
           marginTop: "56px",
           maxWidth: "720px",
           marginInline: "auto",
-          fontSize: "22px",
+          fontSize: isMobile ? "18px" : "22px",
           color: "#38445b",
           lineHeight: 1.5,
           textAlign: "center",
-        }}>
-        <p style={{ fontWeight: 600, marginBottom: "32px", fontFamily: "'Playfair Display', serif",}}>
+          paddingInline: isMobile ? "12px" : "0",
+        }}
+      >
+        <p
+          style={{
+            fontWeight: 600,
+            marginBottom: "32px",
+            fontFamily: "'Playfair Display', serif",
+          }}
+        >
           In just 4&nbsp;hours, you will learn…
         </p>
 
@@ -109,7 +133,7 @@ export default function Section2() {
             gap: "18px",
             fontWeight: 400,
             fontFamily: "'Playfair Display', serif",
-
+            textAlign: isMobile ? "start" : "center",
           }}
         >
           {[
@@ -118,12 +142,19 @@ export default function Section2() {
             "How to instill discipline and a positive growth mindset",
             "How to build responsibility and social skills in your child",
           ].map((item) => (
-            <li key={item} style={{ position: "relative", paddingLeft: "28px" }}>
+            <li
+              key={item}
+              style={{
+                position: "relative",
+                paddingLeft: "28px",
+                fontSize: isMobile ? "18px" : "22px",
+              }}
+            >
               <span
                 style={{
                   position: "absolute",
                   left: 0,
-                  top: 2,
+                  top: "8px",
                   width: "8px",
                   height: "8px",
                   background: accentColour,
@@ -134,11 +165,7 @@ export default function Section2() {
             </li>
           ))}
         </ul>
-
-        
       </div>
-
-
     </section>
   );
 }

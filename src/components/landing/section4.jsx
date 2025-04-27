@@ -1,20 +1,29 @@
-/* ───────── Section 4 – Story origin ───────── */
+import { useState, useEffect } from "react";
 import foundersImg from "../../assets/landing/section4/Mildred and Rachel.jpg";
 
-/* Shared colours (or import your tokens) */
-const navy         = "#1d2556";
+/* Shared colours */
+const navy = "#1d2556";
 const accentColour = "#d4d9f2";
 
 export default function Section4() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // initialize immediately
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <section
       style={{
         width: "100%",
-        padding: "96px 0 120px",
+        padding: isMobile ? "64px 16px" : "96px 0 120px",
         background: "#f9fafb",
       }}
     >
-      {/* ─────────── Image wrapper ─────────── */}
+      {/* ─────── Image wrapper ─────── */}
       <div
         style={{
           position: "relative",
@@ -29,9 +38,12 @@ export default function Section4() {
         <img
           src={foundersImg}
           alt="Michel sisters with students"
-          style={{ display: "block", width: "100%", objectFit: "cover" }}
+          style={{
+            display: "block",
+            width: "100%",
+            objectFit: "cover",
+          }}
         />
-
 
         {/* Carousel dots (static) */}
         <div
@@ -58,10 +70,10 @@ export default function Section4() {
         </div>
       </div>
 
-      {/* ─────────── Text block ─────────── */}
+      {/* ─────── Text block ─────── */}
       <div
         style={{
-          marginTop: "72px",
+          marginTop: isMobile ? "48px" : "72px",
           width: "90%",
           maxWidth: "900px",
           marginInline: "auto",
@@ -73,52 +85,55 @@ export default function Section4() {
           style={{
             fontFamily: "'Playfair Display', serif",
             fontWeight: 700,
-            fontSize: "36px",
+            fontSize: isMobile ? "30px" : "36px",
             lineHeight: 1.3,
             margin: 0,
           }}
-        > Meet the Founders of the Happi360 Program!
-
+        >
+          Meet the Founders of the Happi360 Program!
         </h2>
 
         <p
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "18px",
+            fontSize: isMobile ? "16px" : "18px",
             lineHeight: 1.6,
             margin: "32px 0 48px",
             maxWidth: "720px",
             marginInline: "auto",
+            paddingInline: isMobile ? "8px" : "0",
           }}
         >
-        Mildred and Rachel Yong are the founders of Milchel, a student residence established in 1997.
-        What began as a small dormitory for international students soon evolved into something much more—thanks to their shared vision of providing a nurturing space that supported students' academically, emotionally, mentally and physically.
+          Mildred and Rachel Yong are the founders of Milchel, a student residence established in 1997.
+          What began as a small dormitory for international students soon evolved into something much more—thanks to their shared vision of providing a nurturing space that supported students academically, emotionally, mentally, and physically.
         </p>
 
         <h3
           style={{
             fontFamily: "'Playfair Display', serif",
             fontWeight: 400,
-            fontSize: "26px",
+            fontSize: isMobile ? "22px" : "26px",
             margin: "60px 0 24px",
+            paddingInline: isMobile ? "8px" : "0",
           }}
         >
-        Their goal: <strong> To raise children with values and emotional strength.</strong>
+          Their goal: <strong>To raise children with values and emotional strength.</strong>
         </h3>
 
         <p
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "18px",
+            fontSize: isMobile ? "16px" : "18px",
             lineHeight: 1.6,
             maxWidth: "720px",
             marginInline: "auto",
+            paddingInline: isMobile ? "8px" : "0",
           }}
         >
-            Even though the path they chose wasn't easy, it became incredibly fulfilling when they saw the results—children growing up with kindness, values, and empathy—they knew it was all worth it. Their approach has since gained trust from students, parents, and teachers alike— <strong>inspiring and transforming lives for generations.</strong>
+          Even though the path they chose wasn't easy, it became incredibly fulfilling when they saw the results—children growing up with kindness, values, and empathy—they knew it was all worth it. Their approach has since gained trust from students, parents, and teachers alike — <strong>inspiring and transforming lives for generations.</strong>
         </p>
 
-        {/* Accent line */}
+        {/* Accent Line */}
         <div
           style={{
             marginTop: "64px",
