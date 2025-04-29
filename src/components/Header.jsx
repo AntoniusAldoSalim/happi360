@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useLang } from "../i18n/LanguageContext";
 
 export default function Header() {
   const [language, setLanguage] = useState("en");
   const [open, setOpen]         = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { lang, setLang } = useLang();   // ← from context
 
   /* ---------- helpers ---------- */
   useEffect(() => {
@@ -68,7 +70,7 @@ export default function Header() {
         {/* flag selector */}
         <div style={S.flagWrap}>
           <div style={S.flagBox} onClick={() => setOpen(!open)}>
-            <img src={flag[language]} alt={language} style={S.flagImg} />
+            <img src={flag[lang]} alt={lang} style={S.flagImg} />
           </div>
 
           {open && (
@@ -78,12 +80,9 @@ export default function Header() {
                   key={code}
                   src={url}
                   alt={code}
-                  style={{
-                    ...S.option,
-                    borderColor: code === language ? "#565fb0" : "transparent",
-                  }}
+                  style={{ ...S.option, borderColor: code === lang ? "#565fb0" : "transparent" }}
                   onClick={() => {
-                    setLanguage(code);
+                    setLang(code);        // 🔑 updates global language
                     setOpen(false);
                   }}
                 />
@@ -92,8 +91,12 @@ export default function Header() {
           )}
         </div>
 
-        <button style={S.btn} onClick={() => window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank")}
-        >Register&nbsp;Now</button>
+        <button
+          style={S.btn}
+          onClick={() => window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank")}
+        >
+          {lang === "en" ? "Register Now" : "ลงทะเบียนเลย!"}
+        </button>
       </div>
     </header>
   );

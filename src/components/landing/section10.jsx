@@ -171,8 +171,8 @@ export default function Section7() {
                 src={img}
                 alt={name}
                 style={{
-                  width: "74px",
-                  height: "74px",
+                  width: "140px",
+                  height: "140px",
                   borderRadius: "50%",
                   objectFit: "cover",
                   objectPosition: "top center",   // 👈 keeps the face in view (works for every image,

@@ -68,7 +68,7 @@ export default function Section10() {
       <p
         style={{
           maxWidth: "750px",
-          margin: "24px auto 72px",
+          margin: "24px auto 40px",
           textAlign: "center",
           fontSize: isMobile ? "16px" : "18px",
           lineHeight: 1.6,
@@ -82,7 +82,7 @@ export default function Section10() {
       </p>
 
       {/* Grid of Cards */}
-      <div
+      {/* <div
         style={{
           display: "grid",
           gap: "20px",
@@ -140,7 +140,7 @@ export default function Section10() {
             </p>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Note Banner */}
       <div

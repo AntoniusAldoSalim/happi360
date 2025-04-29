@@ -26,7 +26,7 @@ const pillars = [
     icon : FiLayers,
     title: "3-Level Character Care",
     items: [
-      "Level 1 - Conduct & Mannerism (Good Value & Character)",
+      "Level 1 - Conduct & Character",
       "Level 2 - Leadership",
       "Level 3 - Philanthropy & Humanitarian",
     ],
@@ -130,21 +130,37 @@ export default function Section5() {
               {/* expanding list with smooth height */}
               <div style={slide(idx, expanded)}>
                 <ul
-                  ref={(el) => (refArray.current[idx] = el)} 
-                  style={{
-                    margin:0,
-                    padding: isMobile ? "18px 40px 24px" : "0 60px 32px",
-                    listStyle:"disc",
-                    color:"#38445b",
-                    fontFamily:"Georgia,serif",
-                    fontSize:isMobile?16:18,
-                    lineHeight:1.55,
-                  }}
+                ref={(el) => (refArray.current[idx] = el)}
+                style={{
+                  margin: 0,
+                  padding: isMobile ? "18px 36px 24px" : "0 54px 32px",
+                  listStyle: "none",              // remove default bullets
+                  color: "#38445b",
+                  fontFamily: "Georgia, serif",
+                  fontSize: isMobile ? 16 : 18,
+                  lineHeight: 1.55,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                }}
                 >
-                  {items.map((li) => (
-                    <li key={li}>{li}</li>
+                {items.map((li) => (
+                  <li key={li} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                    {/* custom bullet */}
+                    <span
+                      style={{
+                        flexShrink: 0,
+                        width: 8,
+                        height: 8,
+                        marginTop: 6,             // vertically centre with first text line
+                        borderRadius: "50%",
+                        background: accent,       // uses the same accent colour
+                      }}
+                    />
+                    <span style={{ flex: 1 }}>{li}</span>
+                  </li>
                   ))}
-                </ul>
+                </ul> 
               </div>
             </div>
           );

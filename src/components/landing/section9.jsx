@@ -17,13 +17,13 @@ const experts = [
   {
     img: praewImg,
     name: "Nichapat Prapasil (Praew)",
-    title: "School Consultant, Assumption College Bangkak",
-    bio: `<strong>12 years of experience as a consultant.</strong> Degree in Psychology. Engaging with families to nurture future generations.`,
+    title: "Senior Care Supervisor, OpenSchool for Creatives and Design",
+    bio: `<strong>12 years of experience as a consultant.</strong> Degree in Education specializing in Psychology of Guidance. Engaging with families to nurture future generations.`,
   },
   {
     img: careImg,
     name: "Patsuda Yuthakram (Care)",
-    title: "Well-Being Leader, Assumption College Bangkak",
+    title: "Head of Care Supervisor, OpenSchool for Creatives and Design",
     bio: `<strong>12 years of teaching experience</strong> at Mater Dei School and OpenSchool for Creatives and Design, Patsuda has worked closely with children from diverse backgrounds.`,
   },
 ];

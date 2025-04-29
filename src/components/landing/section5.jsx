@@ -18,22 +18,22 @@ const items = [
   {
     icon: FiMessageSquare,
     text:
-      "Learn modern strategies to help your child grow with <strong> confidence </strong> and <strong> happiness</strong>  in today's world",
+      '<strong>13:00</strong> - Mildred and Rachel Yong share "New Approaches to Child Development".',
   },
   {
     icon: FiUsers,
     text:
-      "Dive into real parenting challenges and explore <strong> practical solutions</strong> with panel of experts.",
+      "<strong>14:00</strong> - Experts panel discussion with parent, educator, consultant and Edutech representatives.",
   },
   {
     icon: FiStar,
     text:
-      "Hear <strong>real-life stories</strong> from <strong>former students </strong>who grew up with Milchel, under Happi360 approach.",
+      "<strong>15:00</strong> - Alumni share their stories.",
   },
   {
     icon: FiBookOpen,
     text:
-      "Engage in open conversations and <strong>exchange insights with experts</strong>. You'll leave with simple,<strong> practical strategies<strong> you can apply immediately.",
+      "<strong>16:00</strong> - Q&A session addressing current challenges in child upbringing.",
   },
 ];
 
@@ -124,15 +124,15 @@ export default function Section8() {
             maxWidth: "820px",
             margin: "24px auto 0",
             textAlign: "center",
-            fontSize: isMobile ? "18px" : "20px",
+            fontSize: isMobile ? "16px" : "18px",
             lineHeight: 1.6,
             color: navy,
-            paddingInline: isMobile ? "12px" : "0",
+            paddingInline: isMobile ? "0px" : "0",
           }}
         >
-          This seminar is <strong>not</strong> a product pitch or sales event. It's a space
+          This seminar is <strong>not</strong> a sales event. It's a space
           for <strong>connection, sharing, and exploring</strong> modern parenting approaches that empower your
-          children to grow up happy and prepared for today's world.
+          children to grow up happy and resilient in today's world.  Any follow-up programs will be completely optional.  Our focus is to learn, reflect, and grow together.
         </p>
       </div>
     </section>

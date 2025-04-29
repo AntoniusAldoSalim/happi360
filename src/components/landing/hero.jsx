@@ -2,7 +2,8 @@ import { FiCalendar, FiClock, FiMapPin } from "react-icons/fi";
 import G1 from "../../assets/landing/G1.jpg"; 
 import G2 from "../../assets/landing/G2.jpeg"; 
 import G4 from "../../assets/landing/G4.jpg"; 
-
+import { useLang } from "../../i18n/LanguageContext";
+import { t }       from "../../i18n/dictionary";
 import { useEffect, useState, useRef } from "react";
 
 const colours = {
@@ -57,7 +58,34 @@ export default function HeroSection() {
       el.style.transform = `translateX(-${idx * 100}%)`;
     }, [idx]);
 
-
+  const { lang } = useLang();
+  const infoItems = [
+    {
+      id   : "date",
+      Icon  : FiCalendar,
+      label : t.infoDate[lang],          // dictionary → "Date" | "วันที่"
+      value : lang === "en"
+              ? "Sunday, 18 May 2025"
+              : "18 พฤษภาคม 2568",
+    },
+    {
+      id   : "time",
+      Icon  : FiClock,
+      label : t.infoTime[lang],          // "Time" | "เวลา"
+      value: lang === "en"
+              ? "13:00 - 17:00"
+              : "13.00 - 17.00 น.",
+    },
+    {
+      id   : "venue",
+      Icon  : FiMapPin,
+      label : t.infoVenue[lang],         // "Venue" | "สถานที่"
+      value : lang === "en"
+              ? "Sukhumvit Park, Bangkok - Marriott Executive Apartments"
+              : "Marriott Executive Apartments - Sukhumvit 24",
+      link  : "https://g.co/kgs/eqHDqSg",     // clickable only for this row
+    },
+  ];
   return (
     <div
       style={{
@@ -139,17 +167,14 @@ export default function HeroSection() {
 
 
         <h1 style={headingStyle}>
-          Raising Happy
-          <br />
-          Children in the Age of&nbsp;AI
+        {t.heroHeading[lang].split("\n").map((l,i)=><span key={i}>{l}<br/></span>)}
         </h1>
 
-        <p style={{ fontSize: isMobile ? "18px" : "22px", color: colours.navy, fontFamily: "'Playfair Display', serif", textAlign: isMobile ? "center" : "start" }}>
-          Singapore's trusted <strong>child development program</strong> is now in Thailand! Proven with over &nbsp;
-          <strong>26 years of experience </strong>and <strong>more than 1,000 children</strong> across Southeast Asia.
-        </p>
+        <p style={{ fontSize: isMobile ? "18px" : "22px", color: colours.navy, fontFamily: "'Playfair Display', serif", textAlign: isMobile ? "center" : "start" }}
+        dangerouslySetInnerHTML={{ __html: t.heroBody[lang] }}
+        />
         <p style={{ fontSize: isMobile ? "18px" : "22px", color: colours.navy, fontFamily: "'Playfair Display', serif", marginBottom: "40px", fontWeight:600, textAlign: isMobile ? "center" : "start" }}>
-          Don't miss this opportunity!
+        {t.heroDontMiss[lang].split("\n").map((l,i)=><span key={i}>{l}<br/></span>)}
         </p>
       </div>
 
@@ -168,28 +193,15 @@ export default function HeroSection() {
           }}
         >
           <h2 style={{ ...subHeadingStyle, marginTop: 0 }}>
-            Join Our FREE Seminar!
+            {t.infoHead[lang].split("\n").map((l,i)=><span key={i}>{l}<br/></span>)}
             <p style={{fontSize: isMobile ? '18px' : '20px'}}>
-              Learn how to understand your child deeply and communicate effectively!
+              {t.infoSub[lang].split("\n").map((l,i)=><span key={i}>{l}<br/></span>)}
             </p>
           </h2>
 
           {/* Info */}
-          {[{
-            Icon: FiCalendar,
-            label: "Date",
-            value: "Sunday, 18th May 2025"
-          },{
-            Icon: FiClock,
-            label: "Time",
-            value: "13:00 - 17:00"
-          },{
-            Icon: FiMapPin,
-            label: "Venue",
-            value: "Sukhumvit Park, Bangkok - Marriott Executive Apartments",
-            link: "https://g.co/kgs/eqHDqSg", // ✅ Add link for venue
-          }].map(({ Icon, label, value, link }) => (
-            <div key={label} style={{ display: "flex", flexDirection: "column", gap: "4px", fontWeight: 600, color: colours.navy }}>
+          {infoItems.map(({ id, Icon, label, value, link }) => (
+            <div key={id} style={{ display: "flex", flexDirection: "column", gap: "4px", fontWeight: 600, color: colours.navy }}>
               <span style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <Icon style={{ width:'25px', height:'25px',  flexShrink: 0  }}/>
                 
@@ -221,7 +233,7 @@ export default function HeroSection() {
           ))}
 
           {/* Note */}
-          <div
+          <p
             style={{
               fontFamily: "'Playfair Display', serif",
               background: colours.paleLilac,
@@ -235,9 +247,9 @@ export default function HeroSection() {
               textAlign:'start',
               marginTop:'20px'
             }}
-          >
-            <strong>Both parents and children are WELCOMED!</strong> While you attend the seminar, <strong>your children will have fun through learning activities from our alumni guidance!</strong>
-          </div>
+          
+           dangerouslySetInnerHTML={{ __html: t.infoSeminarNote[lang] }}
+        />
 
           {/* Button */}
           <button
@@ -255,7 +267,7 @@ export default function HeroSection() {
               cursor: "pointer",
             }}
           >
-            Register Now! (Limited to 100 Seats!)
+            {t.infoRegButton[lang].split("\n").map((l,i)=><span key={i}>{l}<br/></span>)}
           </button>
 
         </div>

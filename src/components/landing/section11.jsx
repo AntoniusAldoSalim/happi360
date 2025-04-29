@@ -187,7 +187,7 @@ export default function Section11() {
       </div>
 
       {/* Contact Us */}
-      <div style={{ marginTop: "72px", textAlign: "center", paddingInline: isMobile ? "12px" : "0" }}>
+      <div style={{ marginTop:  isMobile ? "40px": "100px", textAlign: "center", paddingInline: isMobile ? "12px" : "0" }}>
         <h3
           style={{
             fontFamily: "'Playfair Display', serif",
@@ -209,7 +209,7 @@ export default function Section11() {
             gap: "16px",
             fontSize: isMobile ? "16px" : "18px",
             color: navy,
-            marginBottom: "32px",
+            marginBottom: "0px",
           }}
         >
           <a
