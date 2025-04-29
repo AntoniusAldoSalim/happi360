@@ -92,7 +92,8 @@ export default function Header() {
           )}
         </div>
 
-        <button style={S.btn}>Register&nbsp;Now</button>
+        <button style={S.btn} onClick={() => window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank")}
+        >Register&nbsp;Now</button>
       </div>
     </header>
   );

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import foundersImg from "../../assets/landing/section4/Mildred and Rachel.jpg";
+import founders2 from "../../assets/landing/Founder2.jpg";
 
 /* Shared colours */
 const navy = "#1d2556";
@@ -36,38 +36,16 @@ export default function Section4() {
         }}
       >
         <img
-          src={foundersImg}
+          src={founders2}
           alt="Michel sisters with students"
           style={{
             display: "block",
             width: "100%",
+            minHeight:'180px',
             objectFit: "cover",
           }}
         />
 
-        {/* Carousel dots (static)
-        <div
-          style={{
-            position: "absolute",
-            left: "50%",
-            bottom: "10px",
-            transform: "translateX(-50%)",
-            display: "flex",
-            gap: "6px",
-          }}
-        >
-          {["#424242", "#8c8c8c", "#8c8c8c"].map((c, i) => (
-            <span
-              key={i}
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                background: c,
-              }}
-            />
-          ))}
-        </div> */}
       </div>
 
       {/* ─────── Text block ─────── */}
@@ -99,39 +77,17 @@ export default function Section4() {
             fontSize: isMobile ? "16px" : "18px",
             lineHeight: 1.6,
             margin: "32px 0 48px",
-            maxWidth: "720px",
+            maxWidth: "750px",
             marginInline: "auto",
             paddingInline: isMobile ? "8px" : "0",
           }}
         >
-          Mildred and Rachel Yong are the founders of Milchel, a student residence established in 1997.
-          What began as a small dormitory for international students soon evolved into something much more—thanks to their shared vision of providing a nurturing space that supported students academically, emotionally, mentally, and physically.
+          Mildred and Rachel started <strong> <a href="https://milchel.com" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", fontWeight:700 }}>Milchel</a></strong> a small dormitory for international students <strong>since 1997</strong>.
+          <br /><br />
+          With a commitment to nurturing <strong>children's values and emotional strength</strong>, their shared vision has positively impacted over 1,000 students <strong>academically, emotionally, mentally, and physically</strong> — inspiring and transforming lives for generations.
         </p>
 
-        <h3
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontWeight: 400,
-            fontSize: isMobile ? "22px" : "26px",
-            margin: "60px 0 24px",
-            paddingInline: isMobile ? "8px" : "0",
-          }}
-        >
-          Their goal: <strong>To raise children with values and emotional strength.</strong>
-        </h3>
 
-        <p
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: isMobile ? "16px" : "18px",
-            lineHeight: 1.6,
-            maxWidth: "720px",
-            marginInline: "auto",
-            paddingInline: isMobile ? "8px" : "0",
-          }}
-        >
-          Even though the path they chose wasn't easy, it became incredibly fulfilling when they saw the results—children growing up with kindness, values, and empathy—they knew it was all worth it. Their approach has since gained trust from students, parents, and teachers alike — <strong>inspiring and transforming lives for generations.</strong>
-        </p>
 
         {/* Accent Line */}
         <div

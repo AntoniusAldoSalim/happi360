@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FiCheckCircle, FiCalendar, FiMapPin, FiUser } from "react-icons/fi";
+import { FiCheckCircle, FiCalendar, FiMapPin, FiUser, FiPhone } from "react-icons/fi";
 
 /* palette */
 const navy = "#1d2556";
@@ -18,10 +18,26 @@ const benefits = [
 ];
 
 const eventDetails = [
-  { icon: FiCalendar, title: "Date", info: "18 May" },
+  { icon: FiCalendar, title: "Date", info: "Sunday, 18th May 2025" },
   { icon: FiMapPin, title: "Time", info: "13:00 - 17:00" },
-  { icon: FiUser, title: "Place", info: "Sukhumvit Park, Bangkok - Marriott Executive Apartments" },
+  { icon: FiUser, title: "Venue", info: "Sukhumvit Park, Bangkok - Marriott Executive Apartments", link: "https://g.co/kgs/eqHDqSg" },
 ];
+
+/***** 2. lightweight Messenger SVG component *****/
+const MessengerSVG = ({ size = 24, color = "#0084FF" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 512 512"
+    fill={color}
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Facebook Messenger"
+    style={{ display: "block" }}
+  >
+    {/* single-colour Messenger mark */}
+    <path d="M256 32C132.3 32 32 125.4 32 240c0 66.4 35.3 124.9 90.4 162.9V480l83.1-45.6c15.4 4.3 31.6 6.6 50.5 6.6 123.7 0 224-93.4 224-208S379.7 32 256 32zm39.2 257.4l-53-56.3-94 56.3 105.4-112.1 53 56.3 94-56.3-105.4 112.1z"/>
+  </svg>
+);
 
 export default function Section11() {
   const [isMobile, setIsMobile] = useState(false);
@@ -89,6 +105,7 @@ export default function Section11() {
           {/* Register Button */}
           <div>
             <button
+              onClick={() => window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank")}
               style={{
                 background: btnBg,
                 border: "none",
@@ -133,40 +150,39 @@ export default function Section11() {
 
           {/* Event Details */}
           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            {eventDetails.map(({ icon: Icon, title, info }) => (
-              <div key={title} style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", fontWeight: 600, color: navy }}>
-                  <Icon style={{ fontSize: "20px", color: "#868cff" }} />
-                  {title}
+            {eventDetails.map(({ icon: Icon, title, info, link }) => (
+            <div key={title} style={{ display: "flex", flexDirection: "column", gap: "4px", fontWeight: 600, color: navy }}>
+            <span style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <Icon style={{ width:'25px', height:'25px',  flexShrink: 0  }}/>
+              
+                {/* Text (Label + Value) */}
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span style={{ fontSize: "16px" }}>{title}</span>
+                  {link ? (
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: navy,
+                        textDecoration: "underline",
+                        fontWeight: 600,
+                        fontSize: "16px",
+                      }}
+                    >
+                      {info}
+                    </a>
+                  ) : (
+                    <span style={{ fontSize: "16px" }}>{info}</span>
+                  )}
                 </div>
-                <div style={{ marginLeft: "32px", color: navy, fontSize: "16px", lineHeight: 1.5 }}>
-                  {info}
-                </div>
-              </div>
+                
+              </span>
+              
+            </div>
             ))}
           </div>
 
-          {/* Quote Box */}
-          <div
-            style={{
-              background: cardBg,
-              borderRadius: "12px",
-              padding: "24px",
-              fontSize: isMobile ? "15px" : "16px",
-              fontStyle: "italic",
-              lineHeight: 1.5,
-              color: navy,
-              marginTop: "24px",
-              boxShadow: "0 4px 8px rgba(0,0,0,.04)",
-            }}
-          >
-            “Our sharing session is designed to be a warm, welcoming environment where parents
-            can gain insights while children engage in meaningful activities. We look forward
-            to meeting your family.”
-            <div style={{ marginTop: "12px", textAlign: "right", fontWeight: 600 }}>
-              - The Milchel Team
-            </div>
-          </div>
         </div>
       </div>
 
@@ -183,15 +199,51 @@ export default function Section11() {
         >
           For More Information
         </h3>
-        <p
+
+        <div
           style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "16px",
             fontSize: isMobile ? "16px" : "18px",
             color: navy,
             marginBottom: "32px",
           }}
         >
-          Contact us at: xxx-xxx-xxxx
-        </p>
+          <a
+            href="tel:0852998866"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              color: "#6B7FAA",          // grey-blue
+              textDecoration: "none",
+              fontWeight: 600,
+            }}
+          >
+            <FiPhone size={22} />
+            085-299-8866
+          </a>
+          {/* messenger */}
+          <a
+            href="https://www.facebook.com/Happi360.TH/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: isMobile ? 16 : 18,
+              color: navy,
+              textDecoration: "none",
+            }}
+          >
+            <MessengerSVG size={22} />
+            Facebook Messenger
+          </a>
+        </div>
       </div>
     </section>
   );

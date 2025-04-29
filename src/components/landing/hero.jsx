@@ -3,7 +3,7 @@ import G1 from "../../assets/landing/G1.jpg";
 import G2 from "../../assets/landing/G2.jpeg"; 
 import G4 from "../../assets/landing/G4.jpg"; 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const colours = {
   navy: "#1d2556",
@@ -42,6 +42,22 @@ export default function HeroSection() {
     textAlign: isMobile ? "center" : "start",
   };
 
+  // ---------- Carousel (inside your <HeroSection> or similar) ----------
+  const slides = [G1, G2, G4];              // any order you like
+  const SLIDE_MS = 10000;                    // 4-second interval
+
+  const [idx, setIdx] = useState(0);
+  const trackRef = useRef(null);
+
+  // when idx changes, scroll smoothly
+  useEffect(() => {
+      const el = trackRef.current;
+      if (!el) return;
+      // 100 % = width of one slide
+      el.style.transform = `translateX(-${idx * 100}%)`;
+    }, [idx]);
+
+
   return (
     <div
       style={{
@@ -56,11 +72,72 @@ export default function HeroSection() {
     >
       {/* Left Column */}
       <div style={{ width: isMobile ? "100%" : "650px", maxWidth: "100%", display: "flex", flexDirection: "column", paddingTop: '10vh' }}>
-        <img
-          src={G2}
-          alt="Landing"
-          style={{ width: "100%", borderRadius: "20px", objectFit: "cover" }}
-        />
+      {/* ---------- carousel wrapper ---------- */}
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          overflow: "hidden",
+          borderRadius: 20,
+          boxShadow: "0 6px 18px rgba(0,0,0,.08)",
+        }}
+      >
+        {/* track */}
+        <div
+          ref={trackRef}
+          className="hide-scrollbar"
+          style={{
+            display: "flex",
+            transition: "transform .6s ease",
+            width: "100%",
+            scrollSnapType: "x mandatory",
+          }}
+        >
+          {slides.map((src) => (
+            <img
+              key={src}
+              src={src}
+              alt="Hero slide"
+              style={{
+                width: "100%",
+                flexShrink: 0,
+                scrollSnapAlign: "center",
+                objectFit: "cover",
+                userSelect: "none",
+              }}
+              draggable={false}
+            />
+          ))}
+        </div>
+
+        {/* dots */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 8,
+            left: "50%",
+            transform: "translateX(-50%)",
+            display: "flex",
+            gap: 6,
+          }}
+        >
+          {slides.map((_, i) => (
+            <span
+              key={i}
+              onClick={() => setIdx(i)}
+              style={{
+                width: 10,
+                height: 10,
+                borderRadius: "50%",
+                background: i === idx ? "#565fb0" : "rgba(255,255,255,.6)",
+                cursor: "pointer",
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+
         <h1 style={headingStyle}>
           Raising Happy
           <br />
@@ -68,9 +145,10 @@ export default function HeroSection() {
         </h1>
 
         <p style={{ fontSize: isMobile ? "18px" : "22px", color: colours.navy, fontFamily: "'Playfair Display', serif", textAlign: isMobile ? "center" : "start" }}>
-          Singapore's trusted child development program is now in Thailand! Proven with over 26 years of experience and more than 1,000 children across Southeast Asia.
+          Singapore's trusted <strong>child development program</strong> is now in Thailand! Proven with over &nbsp;
+          <strong>26 years of experience </strong>and <strong>more than 1,000 children</strong> across Southeast Asia.
         </p>
-        <p style={{ fontSize: isMobile ? "18px" : "22px", color: colours.navy, marginBottom: "40px", fontWeight:600, textAlign: isMobile ? "center" : "start" }}>
+        <p style={{ fontSize: isMobile ? "18px" : "22px", color: colours.navy, fontFamily: "'Playfair Display', serif", marginBottom: "40px", fontWeight:600, textAlign: isMobile ? "center" : "start" }}>
           Don't miss this opportunity!
         </p>
       </div>
@@ -100,20 +178,45 @@ export default function HeroSection() {
           {[{
             Icon: FiCalendar,
             label: "Date",
-            value: "June 24, 2024"
+            value: "Sunday, 18th May 2025"
           },{
             Icon: FiClock,
             label: "Time",
-            value: "9:00 AM - 12:00 PM"
+            value: "13:00 - 17:00"
           },{
             Icon: FiMapPin,
             label: "Venue",
-            value: "The Sukosol Hotel, Bangkok"
-          }].map(({ Icon, label, value }) => (
+            value: "Sukhumvit Park, Bangkok - Marriott Executive Apartments",
+            link: "https://g.co/kgs/eqHDqSg", // ✅ Add link for venue
+          }].map(({ Icon, label, value, link }) => (
             <div key={label} style={{ display: "flex", flexDirection: "column", gap: "4px", fontWeight: 600, color: colours.navy }}>
               <span style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <Icon style={{ width:'25px', height:'25px' }}/> {label} <br /> {value}
+                <Icon style={{ width:'25px', height:'25px',  flexShrink: 0  }}/>
+                
+                  {/* Text (Label + Value) */}
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span style={{ fontSize: "16px" }}>{label}</span>
+                  {link ? (
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: colours.navy,
+                        textDecoration: "underline",
+                        fontWeight: 600,
+                        fontSize: "16px",
+                      }}
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    <span style={{ fontSize: "16px" }}>{value}</span>
+                  )}
+                </div>
+                
               </span>
+              
             </div>
           ))}
 
@@ -133,11 +236,12 @@ export default function HeroSection() {
               marginTop:'20px'
             }}
           >
-            Both parents and children are WELCOMED! While you attend the seminar, <strong>your children will have fun through learning activities from our alumni guidance!</strong>
+            <strong>Both parents and children are WELCOMED!</strong> While you attend the seminar, <strong>your children will have fun through learning activities from our alumni guidance!</strong>
           </div>
 
           {/* Button */}
           <button
+            onClick={() => window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank")}
             style={{
               marginTop: "16px",
               width: "100%",

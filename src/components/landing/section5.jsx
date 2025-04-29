@@ -1,228 +1,140 @@
-import { useState, useEffect, useRef } from "react";
-import { FiAward, FiCheckCircle, FiLayers } from "react-icons/fi";
-import mentorsImg from "../../assets/landing/section5.jpg";
+import { useState, useEffect } from "react";
+import {
+  FiMessageSquare,
+  FiUsers,
+  FiStar,
+  FiBookOpen,
+  FiCheck,
+  FiGift,
+} from "react-icons/fi";
 
-/* Colour tokens */
 const navy = "#1d2556";
-const paleLilac = "#e7e9ff";
-const accentColour = "#d4d9f2";
+const paleCreamBg = "#fdf7ef";
+const cardBg = "#ffffff";
+const lilacBg = "#e7e9ff";
+const accentBeige = "#f1f3fd";
 
-/* Data */
-const pillars = [
+const items = [
   {
-    icon: FiAward,
-    title: "7 Core Values",
-    items: [
-      "Magnanimous",
-      "Integrity",
-      "Loving-kindness",
-      "Compassionate",
-      "Holistic living",
-      "Effort",
-      "Leadership",
-    ],
+    icon: FiMessageSquare,
+    text:
+      "Learn modern strategies to help your child grow with <strong> confidence </strong> and <strong> happiness</strong>  in today's world",
   },
   {
-    icon: FiCheckCircle,
-    title: "5 Key Traits",
-    items: ["Awareness", "Discipline", "Responsibility", "Perseverance", "Confidence"],
+    icon: FiUsers,
+    text:
+      "Dive into real parenting challenges and explore <strong> practical solutions</strong> with panel of experts.",
   },
   {
-    icon: FiLayers,
-    title: "3-Level Character Care",
-    items: [
-      "Level 1: Conduct & Mannerism – Good Value & Character",
-      "Level 2: Leadership",
-      "Level 3: Philanthropy & Humanitarian",
-    ],
+    icon: FiStar,
+    text:
+      "Hear <strong>real-life stories</strong> from <strong>former students </strong>who grew up with Milchel, under Happi360 approach.",
+  },
+  {
+    icon: FiBookOpen,
+    text:
+      "Engage in open conversations and <strong>exchange insights with experts</strong>. You'll leave with simple,<strong> practical strategies<strong> you can apply immediately.",
   },
 ];
 
-export default function Section5() {
+export default function Section8() {
   const [isMobile, setIsMobile] = useState(false);
-  const [current, setCurrent] = useState(0);
-  const scrollRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
-    handleResize();
+    handleResize(); // initialize
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const scrollLeft = scrollRef.current.scrollLeft;
-      const width = scrollRef.current.offsetWidth;
-      const index = Math.round(scrollLeft / width);
-      setCurrent(index);
-    }
-  };
-
-  const scrollByCard = (dir) => {
-    if (scrollRef.current) {
-      const width = scrollRef.current.offsetWidth;
-      scrollRef.current.scrollBy({ left: dir * width, behavior: "smooth" });
-    }
-  };
-
   return (
-    <section style={{ padding: isMobile ? "64px 16px" : "96px 0 120px", background: "#f7f8fc", position: "relative" }}>
-      {/* Hero Image */}
+    <section
+      style={{
+        width: "100%",
+        padding: isMobile ? "64px 16px" : "96px 0 120px",
+        background: paleCreamBg,
+      }}
+    >
+      {/* Heading */}
+      <h2
+        style={{
+          textAlign: "center",
+          fontFamily: "'Playfair Display', serif",
+          fontWeight: 700,
+          fontSize: isMobile ? "32px" : "38px",
+          color: navy,
+          margin: isMobile ? "0 20px" : "0px 40px",
+        }}
+      >
+        What You'll Gain From This Seminar
+      </h2>
+
+      {/* Bullet Card Container */}
       <div
         style={{
-          position: "relative",
           width: "90%",
-          maxWidth: "1100px",
-          margin: "0 auto",
-          borderRadius: "12px",
-          overflow: "hidden",
-          boxShadow: "0 10px 22px rgba(0,0,0,.08)",
-        }}
-      >
-        <img
-          src={mentorsImg}
-          alt="Milchel students engaging with mentors"
-          style={{ display: "block", width: "100%", objectFit: "cover" }}
-        />
-      </div>
-
-      {/* Accent Line */}
-      <div
-        style={{
-          margin: isMobile ? "48px auto 0" : "72px auto 0",
-          width: "120px",
-          height: "4px",
-          background: accentColour,
-          borderRadius: "4px",
-        }}
-      />
-
-      {/* Scrollable (Mobile) / Flex Grid (Desktop) */}
-      <div
-        ref={scrollRef}
-        onScroll={handleScroll}
-        style={{
-          marginTop: isMobile ? "48px" : "72px",
+          maxWidth: "1000px",
+          marginInline: "auto",
+          background: cardBg,
+          borderRadius: "16px",
+          padding: isMobile ? "40px 24px" : "56px 48px",
+          marginTop: isMobile ? "40px" : "80px",
+          boxShadow: "0 8px 18px rgba(0,0,0,.05)",
           display: "flex",
-          flexDirection: "row",
-          flexWrap: isMobile ? "nowrap" : "wrap",
-          justifyContent: isMobile ? "flex-start" : "center",
-          gap: "24px",
-          padding: "0 40px",
-          overflowX: isMobile ? "auto" : "visible",
-          scrollSnapType: isMobile ? "x mandatory" : "none",
-          scrollBehavior: "smooth",
-          scrollbarWidth: "none",
+          flexDirection: "column",
+          gap: isMobile ? "24px" : "32px",
         }}
-        className="hide-scrollbar"
       >
-        {pillars.map(({ icon: Icon, title, items }, idx) => (
+        {items.map(({ icon: Icon, text }) => (
           <div
-            key={title}
+            key={text}
             style={{
-              minWidth: isMobile ? "280px" : "300px",
-              maxWidth: isMobile ? "90vw" : "300px",
-              flexShrink: 0,
-              background: "#fff",
-              borderRadius: "16px",
-              boxShadow: "0 8px 18px rgba(0,0,0,.05)",
-              padding: isMobile ? "36px 28px" : "48px 40px",
-              scrollSnapAlign: isMobile ? "center" : "none",
-              textAlign: "center",
               display: "flex",
-              flexDirection: "column",
-              gap: "24px",
+              flexDirection: isMobile ? "column" : "row",
+              alignItems: isMobile ? "flex-start" : "center",
+              gap: "16px",
+              fontSize: isMobile ? "18px" : "20px",
+              lineHeight: 1.5,
+              color: navy,
             }}
           >
-            {/* Icon */}
-            <div
+            <span
               style={{
-                alignSelf: "center",
-                width: "72px",
-                height: "72px",
+                width: "48px",
+                height: "48px",
                 borderRadius: "50%",
-                background: paleLilac,
+                background: lilacBg,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "34px",
+                fontSize: "24px",
+                flexShrink: 0,
                 color: navy,
               }}
             >
               <Icon />
-            </div>
-
-            {/* Title */}
-            <h4
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontWeight: 700,
-                fontSize: isMobile ? "20px" : "22px",
-                color: navy,
-                margin: 0,
-              }}
-            >
-              {title}
-            </h4>
-
-            {/* Items */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "8px",
-                fontSize: isMobile ? "15px" : "17px",
-                lineHeight: 1.45,
-                color: "#38445b",
-              }}
-            >
-              {items.map((txt) => (
-                <span key={txt}>{txt}</span>
-              ))}
-            </div>
+            </span>
+            <div dangerouslySetInnerHTML={{ __html: text }} />
           </div>
         ))}
+
+        {/* Final Paragraph */}
+        <p
+          style={{
+            maxWidth: "820px",
+            margin: "24px auto 0",
+            textAlign: "center",
+            fontSize: isMobile ? "18px" : "20px",
+            lineHeight: 1.6,
+            color: navy,
+            paddingInline: isMobile ? "12px" : "0",
+          }}
+        >
+          This seminar is <strong>not</strong> a product pitch or sales event. It's a space
+          for <strong>connection, sharing, and exploring</strong> modern parenting approaches that empower your
+          children to grow up happy and prepared for today's world.
+        </p>
       </div>
-
-      {/* Navigation Buttons (Mobile Only) */}
-      {isMobile && (
-        <div
-          style={{
-            position: "absolute",
-            right: "24px",
-            bottom: "60px",
-            display: "flex",
-            gap: "12px",
-          }}
-        >
-        </div>
-      )}
-
-      {/* Page Indicators */}
-      {isMobile && (
-        <div
-          style={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            gap: "12px",
-          }}
-        >
-          {pillars.map((_, i) => (
-            <span
-              key={i}
-              style={{
-                width: i === current ? "24px" : "10px",
-                height: "10px",
-                borderRadius: "999px",
-                background: i === current ? "#565fb0" : "#ccc",
-                transition: "all 0.3s ease",
-              }}
-            />
-          ))}
-        </div>
-      )}
     </section>
   );
 }

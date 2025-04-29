@@ -34,7 +34,7 @@ export default function Section2() {
           paddingInline: "12px",
         }}
       >
-        It takes a village to raise a child
+        "It takes a village to raise a child"
       </h2>
 
       {/* Two-column content */}
@@ -77,15 +77,20 @@ export default function Section2() {
           }}
         >
           <p>
-            Over the past two decades, we've watched more children struggle with screen
-            addiction, loneliness, and emotional burnout — even as they excel academically.
-            That's why <strong>Milchel</strong> created a nurturing, values-based way to raise
-            children who are both strong and kind — long before this became a trend.
-          </p>
-          <p>
+            Nowadays, children struggle with <strong>screen addiction, loneliness, and emotional burnout.</strong><br /><br />
+            That's why&nbsp;
+            <a href="https://milchel.com" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", fontWeight: "bold" }}>
+              Milchel
+            </a> 
+            &nbsp;wants to bring a <strong>nurturing, value-based way</strong> to raise children who are both <strong>strong and kind</strong> under the name 
+            <strong>“Happi360”</strong>.
+            
+            <br /><br />
             Now, for the first time, this proven approach — born in Singapore and rooted in
             real relationships — is coming to Thailand.
           </p>
+
+
         </div>
       </div>
 
@@ -120,7 +125,7 @@ export default function Section2() {
             fontFamily: "'Playfair Display', serif",
           }}
         >
-          In just 4&nbsp;hours, you will learn…
+          In just 4 hours, you will learn…
         </p>
 
         <ul
@@ -137,13 +142,13 @@ export default function Section2() {
           }}
         >
           {[
-            "How to communicate effectively with your child",
-            "How to manage phone and digital device usage",
-            "How to instill discipline and a positive growth mindset",
-            "How to build responsibility and social skills in your child",
-          ].map((item) => (
+            <>How to <strong>communicate</strong> effectively with your child</>,
+            <>How to <strong>manage phone</strong> and digital device usage</>,
+            <>How to instill <strong>discipline</strong> and a <strong>positive</strong> growth <strong>mindset</strong></>,
+            <>How to build <strong>responsibility</strong> and <strong>social skills</strong> in your child</>,
+          ].map((item, idx) => (
             <li
-              key={item}
+              key={idx}
               style={{
                 position: "relative",
                 paddingLeft: "28px",
@@ -165,6 +170,7 @@ export default function Section2() {
             </li>
           ))}
         </ul>
+
       </div>
     </section>
   );

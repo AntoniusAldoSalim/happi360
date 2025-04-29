@@ -1,198 +1,155 @@
 import { useState, useEffect, useRef } from "react";
+import { FiAward, FiCheckCircle, FiLayers, FiChevronDown } from "react-icons/fi";
+import mentorsImg from "../../assets/landing/G3.jpg";
 
-import kulImg from "../../assets/landing/panelist/kul.jpg";
-import praewImg from "../../assets/landing/panelist/praew.jpg";
-import careImg from "../../assets/landing/panelist/care.jpg";
+/* colours */
+const navy      = "#1d2556";
+const paleLilac = "#e7e9ff";
+const accent    = "#d4d9f2";
 
-const navy = "#1d2556";
-const accentColour = "#d29c4b";
-
-const experts = [
+/* pillar data */
+const pillars = [
   {
-    img: kulImg,
-    name: "Kulwanee Meedeng (Kul)",
-    title: "Senior Product Specialist, Audimed & Medical Product Company Thailand",
-    bio: `Kulwanee is a Senior Product Specialist with 7 years of experience in neurology and medical products at Audimed and Medical Product Company, Thailand.`,
+    icon : FiAward,
+    title: "7 Core Values",
+    items: [
+      "Magnanimous", "Integrity", "Loving-kindness",
+      "Compassionate", "Holistic living", "Effort", "Leadership",
+    ],
   },
   {
-    img: praewImg,
-    name: "Nichapat Prapasil (Praew)",
-    title: "School Consultant, Assumption College Bangkak",
-    bio: `Nichapat has been a school consultant for 12 years, working with Assumption College Bangkrak, Hor Wang School, and Srinakharinwirot University Demonstration School.`,
+    icon : FiCheckCircle,
+    title: "5 Key Traits",
+    items: ["Awareness", "Discipline", "Responsibility", "Perseverance", "Confidence"],
   },
   {
-    img: careImg,
-    name: "Patsuda Yuthakram (Care)",
-    title: "Well-Being Leader, Assumption College Bangkak",
-    bio: `With 12 years of teaching experience at Mater Dei School and OpenSchool for Creatives and Design, Patsuda has worked closely with children from diverse backgrounds.`,
+    icon : FiLayers,
+    title: "3-Level Character Care",
+    items: [
+      "Level 1 - Conduct & Mannerism (Good Value & Character)",
+      "Level 2 - Leadership",
+      "Level 3 - Philanthropy & Humanitarian",
+    ],
   },
 ];
 
-export default function Section6() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [current, setCurrent] = useState(0);
-  const scrollRef = useRef(null);
+export default function Section5() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [openIdx,  setOpenIdx ] = useState(null);       // which pillar is expanded
+  const [heights,  setHeights ] = useState([]);         // real scrollHeights
+  const refArray                   = useRef([]);        // refs for each <ul>
 
+
+  /* watch width */
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    handleResize(); // initialize immediately
-    return () => window.removeEventListener("resize", handleResize);
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      const scrollLeft = scrollRef.current.scrollLeft;
-      const width = scrollRef.current.offsetWidth;
-      const index = Math.round(scrollLeft / width);
-      setCurrent(index);
-    }
-  };
+  /* measure each list once after first render */
+  useEffect(() => {
+    const h = refArray.current.map((el) => (el ? el.scrollHeight : 0));
+    setHeights(h);
+  }, []); // run once
 
-  const scrollByCard = (dir) => {
-    if (scrollRef.current) {
-      const width = scrollRef.current.offsetWidth;
-      scrollRef.current.scrollBy({ left: dir * width, behavior: "smooth" });
-    }
-  };
+  /* helper that returns style for the animated box */
+  const slide = (idx, show) => ({
+    overflow  : "hidden",
+    maxHeight : show ? `${heights[idx] || 0}px` : 0,
+    opacity   : show ? 1 : 0,
+    transition: "max-height .45s cubic-bezier(.25,.8,.25,1), opacity .45s",
+  });
 
   return (
-    <section style={{ padding: "96px 0 120px", background: "#ffffff", position: "relative" }}>
-      {/* Heading */}
-      <h2
-        style={{
-          textAlign: "center",
-          fontFamily: "'Playfair Display', serif",
-          fontWeight: 700,
-          fontSize: "38px",
-          lineHeight: 1.3,
-          color: navy,
-          margin: 0,
-          maxWidth: "800px",
-          marginInline: "auto",
-          paddingInline: "16px",
-        }}
-      >
-        For this seminar, we have invited leading experts in child development.
-      </h2>
-
-      {/* Accent Bar */}
-      <div
-        style={{
-          margin: "40px auto 72px",
-          width: "120px",
-          height: "4px",
-          background: accentColour,
-          borderRadius: "4px",
-        }}
-      />
-
-      {/* Scrollable (Mobile) / Flex Grid (Desktop) */}
-      <div
-        ref={scrollRef}
-        onScroll={handleScroll}
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: isMobile ? "nowrap" : "wrap",        // ✅ nowrap for mobile, wrap for desktop
-          justifyContent: isMobile ? "flex-start" : "center",
-          gap: "24px",
-          padding: "0 40px",
-          overflowX: isMobile ? "auto" : "visible",       // ✅ scrolling only mobile
-          scrollSnapType: isMobile ? "x mandatory" : "none",
-          scrollBehavior: "smooth",
-          scrollbarWidth: "none",                         // hide Firefox scrollbar
-        }}
-        className="hide-scrollbar" // chrome scrollbar hide
-      >
-        {experts.map(({ img, name, title, bio }) => (
-          <div
-            key={name}
-            style={{
-              minWidth: isMobile ? "280px" : "320px",
-              maxWidth: isMobile ? "90vw" : "320px",
-              flexShrink: 0,
-              background: "#fff",
-              borderRadius: "16px",
-              boxShadow: "0 8px 18px rgba(0,0,0,.06)",
-              padding: "32px 24px",
-              scrollSnapAlign: isMobile ? "center" : "none",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-          >
-            <img
-              src={img}
-              alt={name}
-              style={{
-                width: "150px",
-                height: "200px",
-                objectFit: "cover",
-                borderRadius: "12px",
-                marginBottom: "16px",
-              }}
-            />
-            <h3
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontWeight: 700,
-                fontSize: "22px",
-                color: navy,
-                margin: "8px 0",
-              }}
-            >
-              {name}
-            </h3>
-            <p
-              style={{
-                fontWeight: 600,
-                fontSize: "16px",
-                color: navy,
-                marginBottom: "16px",
-              }}
-            >
-              {title}
-            </p>
-            <p
-              style={{
-                fontSize: "15px",
-                color: "#38445b",
-                lineHeight: 1.5,
-              }}
-            >
-              {bio}
-            </p>
-          </div>
-        ))}
+    <section style={{padding:isMobile?"64px 16px":"96px 0 120px",background:"#f7f8fc"}}>
+      {/* hero image (unchanged) */}
+      <div style={{
+        position:"relative",width:"90%",maxWidth:1100,margin:"0 auto",
+        borderRadius:12,overflow:"hidden",boxShadow:"0 10px 22px rgba(0,0,0,.08)"
+      }}>
+        <img src={mentorsImg} alt="Milchel mentors" style={{display:"block",width:"100%",objectFit:"cover"}}/>
       </div>
 
+      {/* accent line */}
+      <div style={{
+        margin:isMobile?"48px auto 0":"72px auto 0",
+        width:120,height:4,background:accent,borderRadius:4
+      }}/>
 
-      {/* Page Indicators */}
-      {isMobile && (
-        <div
-          style={{
-            marginTop: "40px",
-            display: "flex",
-            justifyContent: "center",
-            gap: "8px",
-          }}
-        >
-          {experts.map((_, i) => (
-            <span
-              key={i}
-              style={{
-                width: i === current ? "24px" : "10px",
-                height: "10px",
-                borderRadius: "999px",
-                background: i === current ? "#565fb0" : "#ccc",
-                transition: "all 0.3s ease",
-              }}
-            />
-          ))}
-        </div>
-      )}
+
+      {/* ------ accordion ------ */}
+      <div
+        style={{
+          marginTop : isMobile ? 48 : 72,
+          width     : "90%",
+          maxWidth  : 680,
+          marginInline:"auto",
+          display   : "flex",
+          flexDirection: "column",
+        }}
+      >
+        {pillars.map(({ icon:Icon, title, items }, idx) => {
+          const expanded = openIdx === idx;
+          return (
+            <div key={title} style={{ borderBottom: "1px solid #e5e5e5" }}>
+              {/* clickable header */}
+              <button
+                onClick={() => setOpenIdx(expanded ? null : idx)}
+                style={{
+                  width:"100%", padding: isMobile ? 20 : 28,
+                  background:"none", border:"none", cursor:"pointer",
+                  display:"flex", alignItems:"center", gap:18, outline:"none"
+                }}
+              >
+                <div style={{
+                  width:54, height:54, borderRadius:"50%", background:paleLilac,
+                  display:"flex", alignItems:"center", justifyContent:"center",
+                  fontSize:30, color:navy, flexShrink:0
+                }}>
+                  <Icon/>
+                </div>
+
+                <h4 style={{
+                  flex:1, margin:0, textAlign:"left",
+                  fontFamily:"'Playfair Display',serif",
+                  fontWeight:700, fontSize:isMobile?20:22, color:navy
+                }}>
+                  {title}
+                </h4>
+
+                <FiChevronDown
+                  style={{
+                    fontSize:24,
+                    transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+                    transition:"transform .3s", color:navy
+                  }}
+                />
+              </button>
+
+              {/* expanding list with smooth height */}
+              <div style={slide(idx, expanded)}>
+                <ul
+                  ref={(el) => (refArray.current[idx] = el)} 
+                  style={{
+                    margin:0,
+                    padding: isMobile ? "18px 40px 24px" : "0 60px 32px",
+                    listStyle:"disc",
+                    color:"#38445b",
+                    fontFamily:"Georgia,serif",
+                    fontSize:isMobile?16:18,
+                    lineHeight:1.55,
+                  }}
+                >
+                  {items.map((li) => (
+                    <li key={li}>{li}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }

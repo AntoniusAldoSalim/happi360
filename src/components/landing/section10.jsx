@@ -1,54 +1,78 @@
-import { useState, useEffect } from "react";
-import { FiClock, FiTarget, FiActivity, FiGift, FiUser } from "react-icons/fi";
+import { useState, useEffect, useRef } from "react";
 
+import amImg from "../../assets/landing/section7/am.jpg";
+import peImg from "../../assets/landing/section7/p.jpg";
+import oakImg from "../../assets/landing/section7/oak.jpg";
+import pepImg from "../../assets/landing/section7/pep.jpg";
+import coverImg from "../../assets/landing/G6.jpg";
+
+/* Colors */
+/* colour tokens */
 const headingClr = "#7e2c21";
-const bodyClr = "#1d2556";
-const creamBg = "#fffaf4";
-const cardBg = "#ffffff";
-const chipBg = "#fdeedd";
-const borderLight = "#eee";
+const bodyClr    = "#a36253";
+const cardBg     = "#ffffff";
+const quoteMark  = "#d7c9b8";
 
-const points = [
+const testimonials = [
   {
-    icon: FiClock,
-    title: "Full-Day Format",
-    desc: "8 hours of action-packed engagement",
+    img: amImg,
+    quote:
+      "Milchel <strong> is family</strong>. There were always brothers, sisters, and friends looking out for one another. They offered many activities that allowed us to develop <strong>leadership, responsibility, and collaboration skills</strong>. I truly enjoyed being part of this nurturing community!",
+    name: "Boonyawee Boonsongkor (Am)",
+    initial: "A",
   },
   {
-    icon: FiTarget,
-    title: "Focus & Mindfulness",
-    desc: "Mindfulness and focus-building games",
+    img: peImg,
+    quote:
+      "I still think about the moments I stayed at Milchel to this day. They were truly so much fun!. <strong>I learned teamwork, communication, and time management.</strong> Now I can see how much they have influenced my life today.",
+    name: "Chakrid Aussavasirisilp (Pe)",
+    initial: "P",
   },
   {
-    icon: FiActivity,
-    title: "High-Tech Tools",
-    desc: "Exploration with brainwave reader tools",
+    img: oakImg,
+    quote:
+      "Michel's activities were incredibly beneficial and helped me develop key life skills—like teamwork, collaboration, and effective communication. Beyond that, Michel gave me the chance to meet new friends and build meaningful relationships.",
+    name: "Kankavee Pipatsawetwanan (Oak)",
+    initial: "O",
   },
   {
-    icon: FiGift,
-    title: "Reward System",
-    desc: "Tangible rewards for positive behavior",
-  },
-  {
-    icon: FiUser,
-    title: "Parent Involvement",
-    desc: "A final parent-child debrief session to continue the momentum at home",
+    img: pepImg,
+    quote:
+      "Living at Michel encouraged me to try new activities, meet new people, and step outside my comfort zone. I learned valuable skills that schools don't always teach—like planning, teamwork, cultural awareness, and discipline. These are things I carry with me even now, and I can apply them in many parts of my life.",
+    name: "Thornthun Kitjasateanphun (Pep)",
+    initial: "P",
   },
 ];
-
-export default function Section10() {
+export default function Section7() {
   const [isMobile, setIsMobile] = useState(false);
+  const [current,   setCurrent] = useState(0);           // active page for mobile dots
+  const scrollRef               = useRef(null);
 
+  /* ───── responsive flag ───── */
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    handleResize(); // run immediately
-    return () => window.removeEventListener("resize", handleResize);
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize);
+    onResize();                       // run once at mount
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  /* ───── page tracking only on mobile ───── */
+  const handleScroll = () => {
+    if (!isMobile || !scrollRef.current) return;
+    const scrollLeft = scrollRef.current.scrollLeft;
+    const pageWidth  = scrollRef.current.offsetWidth;      // one “page” = full viewport width
+    setCurrent(Math.round(scrollLeft / pageWidth));
+  };
+
   return (
-    <section style={{ padding: isMobile ? "64px 16px" : "96px 0 120px", background: creamBg }}>
-      {/* Heading */}
+    <section
+      style={{
+        width: "100%",
+        padding: isMobile ? "64px 16px" : "96px 0 120px",
+        background: "#fcf9f4",
+      }}
+    >
+      {/* heading */}
       <h2
         style={{
           textAlign: "center",
@@ -57,109 +81,158 @@ export default function Section10() {
           fontSize: isMobile ? "32px" : "38px",
           color: headingClr,
           margin: 0,
-          paddingInline: isMobile ? "12px" : "0",
         }}
       >
-        Try the 1-Day Kids Experience
+        Voices of Our Grown-Up Students
       </h2>
 
-      {/* Paragraph */}
       <p
         style={{
-          maxWidth: "750px",
-          margin: "24px auto 72px",
           textAlign: "center",
+          maxWidth: "780px",
+          margin: "24px auto 56px",
           fontSize: isMobile ? "16px" : "18px",
           lineHeight: 1.6,
           color: bodyClr,
-          paddingInline: isMobile ? "12px" : "0",
         }}
       >
-        For parents who are curious to see the method in action, we're offering a special
-        1-day mini experience focused on reducing excessive screen time. It's designed to be
-        fun, eye-opening, and practical — using our Happi360 approach.
+        The true impact of the Happi360 method is reflected in the lives of those who grew up
+        with it. Here's what our alumni say — even years later.
       </p>
 
-      {/* Grid of Cards */}
-      <div
+      {/* cover image */}
+      <img
+        src={coverImg}
+        alt="Alumni friends together"
         style={{
-          display: "grid",
-          gap: "20px",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-          width: "90%",
-          maxWidth: "1000px",
+          display: "block",
+          width: isMobile ? "260px" : "800px",
+          maxWidth: "90%",
           marginInline: "auto",
+          borderRadius: "12px",
+          boxShadow: "0 8px 18px rgba(0,0,0,.06)",
+          marginBottom: "56px",
         }}
+      />
+
+      {/* ───────── testimonials container ───────── */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        style={{
+          display: "flex",
+          overflowX: isMobile ? "auto" : "visible",
+          scrollSnapType: isMobile ? "x mandatory" : "none",
+          scrollBehavior: "smooth",
+          flexWrap: isMobile ? "nowrap" : "wrap",
+          justifyContent: isMobile ? "flex-start" : "center",
+          gap: "24px",
+          padding: "0 5%",
+          scrollbarWidth: "none",
+        }}
+        className="hide-scrollbar"     /* hide WebKit scrollbar via global CSS */
       >
-        {points.map(({ icon: Icon, title, desc }) => (
+        {testimonials.map(({ img, quote, name, initial }) => (
           <div
-            key={title}
+            key={name}
             style={{
               background: cardBg,
               borderRadius: "16px",
-              padding: isMobile ? "28px 20px" : "38px 30px",
-              border: `1px solid ${borderLight}`,
+              minWidth: isMobile ? "300px" : "260px",
+              maxWidth: isMobile ? "320px" : "300px",
+              flexShrink: 0,
+              padding: "32px 28px",
+              scrollSnapAlign: isMobile ? "center" : "none",
+              boxShadow: "0 6px 14px rgba(0,0,0,.05)",
               display: "flex",
               flexDirection: "column",
-              gap: "12px",
               alignItems: "center",
               textAlign: "center",
+              position: "relative",
+              gap: "48px",
             }}
           >
-            <div
+            {/* decorative quote mark */}
+            <span
               style={{
-                width: "48px",
-                height: "48px",
-                borderRadius: "50%",
-                background: chipBg,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "24px",
-                color: headingClr,
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                fontSize: "28px",
+                color: quoteMark,
               }}
             >
-              <Icon />
-            </div>
+              99
+            </span>
 
-            <h4
+            {/* avatar */}
+            {img && (
+              <img
+                src={img}
+                alt={name}
+                style={{
+                  width: "74px",
+                  height: "74px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  objectPosition: "top center",   // 👈 keeps the face in view (works for every image,
+
+                }}
+              />
+            )}
+
+            {/* quote */}
+            <p
               style={{
-                fontFamily: "'Playfair Display', serif",
-                fontWeight: 700,
+                fontStyle: "italic",
                 fontSize: "16px",
-                color: headingClr,
+                lineHeight: 1.6,
+                color: bodyClr,
                 margin: 0,
               }}
-            >
-              {title}
-            </h4>
+              dangerouslySetInnerHTML={{ __html: quote }}
+            />
 
-            <p style={{ fontSize: "14px", lineHeight: 1.5, color: bodyClr, margin: 0 }}>
-              {desc}
-            </p>
+            {/* name */}
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  background: quoteMark,
+                  color: bodyClr,
+                  fontWeight: 700,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {initial}
+              </div>
+              <strong style={{ fontSize: "16px", color: bodyClr }}>– {name}</strong>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Note Banner */}
-      <div
-        style={{
-          marginTop: "40px",
-          background: cardBg,
-          borderRadius: "16px",
-          padding: isMobile ? "32px 24px" : "36px 32px",
-          maxWidth: "600px",
-          marginInline: "auto",
-          textAlign: "center",
-          boxShadow: "0 6px 14px rgba(0,0,0,.05)",
-          fontSize: isMobile ? "15px" : "16px",
-          lineHeight: 1.6,
-          color: headingClr,
-          marginBottom: isMobile ? "60px" : "0",
-        }}
-      >
-        This optional program is open only to event attendees. Limited slots available — more details will be shared during the session.
-      </div>
+      {/* dot indicators – mobile-only */}
+      {isMobile && (
+        <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginTop: "32px" }}>
+          {testimonials.map((_, i) => (
+            <span
+              key={i}
+              style={{
+                width: i === current ? "24px" : "10px",
+                height: "10px",
+                borderRadius: "999px",
+                background: i === current ? headingClr : quoteMark,
+                transition: "all 0.3s ease",
+              }}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

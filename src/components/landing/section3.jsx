@@ -7,8 +7,8 @@ const factBg = "#e7e9ff"; // pale lilac
 const accentColour = "#d29c4b"; // ochre
 
 const facts = [
-  { tag: "26 Years", text: "Global experience in child development" },
-  { tag: "1,000+ Students", text: "Our alumni have grown to be confident, resilient, and empathetic individuals. These values are passed on to every new generation of our students." },
+  { tag: "26 Years", text: "Global <strong>experience</strong> in child development" },
+  { tag: ">1,000 Students", text: "Our alumni have grown to be confident, resilient, and empathetic individuals. These <strong>values</strong> are passed on to every new generation of our students." },
   { tag: "360°", text: "A holistic child-development approach designed specifically for the modern world" },
 ];
 
@@ -88,16 +88,15 @@ export default function Section3() {
             </div>
 
             {/* right explanatory text */}
-            <p
+            <div
               style={{
                 margin: 0,
                 fontSize: isMobile ? "18px" : "22px",
                 lineHeight: 1.5,
                 color: "#38445b",
               }}
-            >
-              {text}
-            </p>
+              dangerouslySetInnerHTML={{ __html: text }}
+            />
           </div>
         ))}
 

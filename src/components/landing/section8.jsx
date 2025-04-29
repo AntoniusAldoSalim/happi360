@@ -1,60 +1,54 @@
 import { useState, useEffect } from "react";
-import {
-  FiMessageSquare,
-  FiUsers,
-  FiStar,
-  FiBookOpen,
-  FiCheck,
-  FiGift,
-} from "react-icons/fi";
+import { FiClock, FiTarget, FiActivity, FiGift, FiUser } from "react-icons/fi";
+import G5 from "../../assets/landing/G5.jpg";
 
-const navy = "#1d2556";
-const paleCreamBg = "#fdf7ef";
+const headingClr = "#7e2c21";
+const bodyClr = "#1d2556";
+const creamBg = "#fffaf4";
 const cardBg = "#ffffff";
-const lilacBg = "#e7e9ff";
-const accentBeige = "#f1f3fd";
+const chipBg = "#fdeedd";
+const borderLight = "#eee";
 
-const items = [
+const points = [
   {
-    icon: FiMessageSquare,
-    text:
-      "Learn from experts in child development from Singapore (Mildred and Rachel Yong), as they share modern strategies to help your child grow with confidence and happiness in today’s world.",
+    icon: FiClock,
+    title: "Full-Day Format",
+    desc: "8 hours of action-packed engagement",
   },
   {
-    icon: FiUsers,
-    text:
-      "Dive into real parenting challenges and explore practical solutions with a diverse panel of experts, including child-development specialists, technology experts (Neeuro), educators, and parents.",
+    icon: FiTarget,
+    title: "Focus & Mindfulness",
+    desc: "Mindfulness and focus-building games",
   },
   {
-    icon: FiStar,
-    text:
-      "Hear real-life stories from former students who grew up with the Michel approach.",
+    icon: FiActivity,
+    title: "High-Tech Tools",
+    desc: "Exploration with brainwave reader tools",
   },
   {
-    icon: FiBookOpen,
-    text:
-      "Engage in open conversations and exchange insights with experts. You’ll leave with simple, practical strategies you can apply immediately.",
+    icon: FiGift,
+    title: "Reward System",
+    desc: "Tangible rewards for positive behavior",
+  },
+  {
+    icon: FiUser,
+    title: "Parent Involvement",
+    desc: "A final parent-child debrief session to continue the momentum at home",
   },
 ];
 
-export default function Section8() {
+export default function Section10() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
-    handleResize(); // initialize
+    handleResize(); // run immediately
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <section
-      style={{
-        width: "100%",
-        padding: isMobile ? "64px 16px" : "96px 0 120px",
-        background: paleCreamBg,
-      }}
-    >
+    <section style={{ padding: isMobile ? "64px 16px" : "96px 0 120px", background: creamBg }}>
       {/* Heading */}
       <h2
         style={{
@@ -62,79 +56,131 @@ export default function Section8() {
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
           fontSize: isMobile ? "32px" : "38px",
-          color: navy,
-          margin: isMobile ? "0 20px" : "0px 40px",
+          color: headingClr,
+          margin: 0,
+          paddingInline: isMobile ? "12px" : "0",
         }}
       >
-        What You'll Gain From This Seminar
+        Try the 1-Day Kids Experience
       </h2>
 
-      {/* Bullet Card Container */}
+      {/* Paragraph */}
+      <p
+        style={{
+          maxWidth: "750px",
+          margin: "24px auto 72px",
+          textAlign: "center",
+          fontSize: isMobile ? "16px" : "18px",
+          lineHeight: 1.6,
+          color: bodyClr,
+          paddingInline: isMobile ? "12px" : "0",
+        }}
+      >
+        For parents who are curious to see the method in action, we're offering a<strong> special
+        1-day mini experience </strong>focused on <strong>reducing excessive screen time</strong>. It's designed to be
+        fun, eye-opening, and practical — using our Happi360 approach.
+      </p>
+
+      {/* Grid of Cards */}
       <div
         style={{
+          display: "grid",
+          gap: "20px",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
           width: "90%",
           maxWidth: "1000px",
           marginInline: "auto",
-          background: cardBg,
-          borderRadius: "16px",
-          padding: isMobile ? "40px 24px" : "56px 48px",
-          marginTop: isMobile ? "40px" : "80px",
-          boxShadow: "0 8px 18px rgba(0,0,0,.05)",
-          display: "flex",
-          flexDirection: "column",
-          gap: isMobile ? "24px" : "32px",
         }}
       >
-        {items.map(({ icon: Icon, text }) => (
+        {points.map(({ icon: Icon, title, desc }) => (
           <div
-            key={text}
+            key={title}
             style={{
+              background: cardBg,
+              borderRadius: "16px",
+              padding: isMobile ? "28px 20px" : "38px 30px",
+              border: `1px solid ${borderLight}`,
               display: "flex",
-              flexDirection: isMobile ? "column" : "row",
-              alignItems: isMobile ? "flex-start" : "center",
-              gap: "16px",
-              fontSize: isMobile ? "18px" : "20px",
-              lineHeight: 1.5,
-              color: navy,
+              flexDirection: "column",
+              gap: "12px",
+              alignItems: "center",
+              textAlign: "center",
             }}
           >
-            <span
+            <div
               style={{
                 width: "48px",
                 height: "48px",
                 borderRadius: "50%",
-                background: lilacBg,
+                background: chipBg,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: "24px",
-                flexShrink: 0,
-                color: navy,
+                color: headingClr,
               }}
             >
               <Icon />
-            </span>
-            {text}
+            </div>
+
+            <h4
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "16px",
+                color: headingClr,
+                margin: 0,
+              }}
+            >
+              {title}
+            </h4>
+
+            <p style={{ fontSize: "14px", lineHeight: 1.5, color: bodyClr, margin: 0 }}>
+              {desc}
+            </p>
           </div>
         ))}
-
-        {/* Final Paragraph */}
-        <p
-          style={{
-            maxWidth: "820px",
-            margin: "24px auto 0",
-            textAlign: "center",
-            fontSize: isMobile ? "18px" : "20px",
-            lineHeight: 1.6,
-            color: navy,
-            paddingInline: isMobile ? "12px" : "0",
-          }}
-        >
-          This seminar is <strong>not</strong> a product pitch or sales event. It's a space
-          for connection, sharing, and exploring modern parenting approaches that empower your
-          children to grow up happy and prepared for today's world.
-        </p>
       </div>
+
+      {/* Note Banner */}
+      <div
+        style={{
+          marginTop: "40px",
+          background: cardBg,
+          borderRadius: "16px",
+          padding: isMobile ? "32px 24px" : "36px 32px",
+          maxWidth: "600px",
+          marginInline: "auto",
+          textAlign: "center",
+          boxShadow: "0 6px 14px rgba(0,0,0,.05)",
+          fontSize: isMobile ? "15px" : "16px",
+          lineHeight: 1.6,
+          color: headingClr,
+          marginBottom: isMobile ? "60px" : "80px",
+        }}
+      >
+        This optional program is open only to event attendees. Limited slots available — more details will be shared during the session.
+      </div>
+
+        {/* Image */}
+      <div
+        style={{
+          position: "relative",
+          width: "90%",
+          maxWidth: "1100px",
+          margin: "0 auto",
+          borderRadius: "12px",
+          overflow: "hidden",
+          boxShadow: "0 10px 22px rgba(0,0,0,.08)",
+        }}
+      >
+        <img
+          src={G5}
+          alt="Milchel students engaging with mentors"
+          style={{ display: "block", width: "100%", objectFit: "cover" }}
+        />
+      </div>
+      
     </section>
   );
 }

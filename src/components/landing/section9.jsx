@@ -1,16 +1,37 @@
-import { useState, useEffect } from "react";
-import kidsImg from "../../assets/landing/Happy.jpg";
-import { FiStar, FiAward, FiUsers, FiHeart } from "react-icons/fi";
+import { useState, useEffect, useRef } from "react";
+
+import kulImg from "../../assets/landing/panelist/kul.jpg";
+import praewImg from "../../assets/landing/panelist/praew.jpg";
+import careImg from "../../assets/landing/panelist/care.jpg";
 
 const navy = "#1d2556";
-const creamBg = "#f7f8fc";
-const cardBg = "#ffffff";
-const chipBg = "#fdeedd";
-const borderLight = "#ececec";
-const quoteColor = "#5560a3";
+const accentColour = "#d29c4b";
 
-export default function Section9() {
+const experts = [
+  {
+    img: kulImg,
+    name: "Kulwanee Meedeng (Kul)",
+    title: "Senior Product Specialist, Audimed & Medical Product Company Thailand",
+    bio: `<strong> 7 years of experience </strong> in <strong> neurology </strong> and <strong> medical products </strong>. Master's degree in Biomedical Engineering.`,
+  },
+  {
+    img: praewImg,
+    name: "Nichapat Prapasil (Praew)",
+    title: "School Consultant, Assumption College Bangkak",
+    bio: `<strong>12 years of experience as a consultant.</strong> Degree in Psychology. Engaging with families to nurture future generations.`,
+  },
+  {
+    img: careImg,
+    name: "Patsuda Yuthakram (Care)",
+    title: "Well-Being Leader, Assumption College Bangkak",
+    bio: `<strong>12 years of teaching experience</strong> at Mater Dei School and OpenSchool for Creatives and Design, Patsuda has worked closely with children from diverse backgrounds.`,
+  },
+];
+
+export default function Section6() {
   const [isMobile, setIsMobile] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -19,79 +40,158 @@ export default function Section9() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const width = scrollRef.current.offsetWidth;
+      const index = Math.round(scrollLeft / width);
+      setCurrent(index);
+    }
+  };
+
+  const scrollByCard = (dir) => {
+    if (scrollRef.current) {
+      const width = scrollRef.current.offsetWidth;
+      scrollRef.current.scrollBy({ left: dir * width, behavior: "smooth" });
+    }
+  };
+
   return (
-    <section
-      style={{
-        width: "100%",
-        padding: isMobile ? "64px 16px" : "96px 0 120px",
-        background: creamBg,
-      }}
-    >
+    <section style={{ padding: "96px 0 120px", background: "#ffffff", position: "relative" }}>
       {/* Heading */}
       <h2
         style={{
           textAlign: "center",
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
-          fontSize: isMobile ? "32px" : "38px",
+          fontSize: "38px",
+          lineHeight: 1.3,
           color: navy,
           margin: 0,
-          paddingInline: isMobile ? "12px" : "0",
+          maxWidth: "800px",
+          marginInline: "auto",
+          paddingInline: "16px",
         }}
       >
-        Let your children join the fun!
+        For this seminar, we have invited leading experts in child development.
       </h2>
 
-      {/* Two-column layout */}
+      {/* Accent Bar */}
       <div
         style={{
-          width: "90%",
-          maxWidth: "900px",
-          marginTop: isMobile ? "32px" : "60px",
-          marginInline: "auto",
+          margin: "40px auto 72px",
+          width: "120px",
+          height: "4px",
+          background: accentColour,
+          borderRadius: "4px",
+        }}
+      />
+
+      {/* Scrollable (Mobile) / Flex Grid (Desktop) */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        style={{
           display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          gap: "32px",
-          alignItems: "center",
+          flexDirection: "row",
+          flexWrap: isMobile ? "nowrap" : "wrap",        // ✅ nowrap for mobile, wrap for desktop
+          justifyContent: isMobile ? "flex-start" : "center",
+          gap: "24px",
+          padding: "0 40px",
+          overflowX: isMobile ? "auto" : "visible",       // ✅ scrolling only mobile
+          scrollSnapType: isMobile ? "x mandatory" : "none",
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none",                         // hide Firefox scrollbar
         }}
+        className="hide-scrollbar" // chrome scrollbar hide
       >
-        {/* Image */}
-        <div style={{ flex: 1 }}>
-          <img
-            src={kidsImg}
-            alt="Children activities"
+        {experts.map(({ img, name, title, bio }) => (
+          <div
+            key={name}
             style={{
-              width: "100%",
-              borderRadius: "12px",
-              objectFit: "cover",
+              minWidth: isMobile ? "280px" : "320px",
+              maxWidth: isMobile ? "90vw" : "320px",
+              flexShrink: 0,
+              background: "#fff",
+              borderRadius: "16px",
               boxShadow: "0 8px 18px rgba(0,0,0,.06)",
+              padding: "32px 24px",
+              scrollSnapAlign: isMobile ? "center" : "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
             }}
-          />
+          >
+            <img
+              src={img}
+              alt={name}
+              style={{
+                width: "150px",
+                height: "200px",
+                objectFit: "cover",
+                borderRadius: "12px",
+                marginBottom: "16px",
+              }}
+            />
+            <h3
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "22px",
+                color: navy,
+                margin: "8px 0",
+              }}
+            >
+              {name}
+            </h3>
+            <p
+              style={{
+                fontWeight: 600,
+                fontSize: "16px",
+                color: navy,
+                marginBottom: "16px",
+              }}
+            >
+              {title}
+            </p>
+            <p
+              style={{
+                fontSize: "15px",
+                color: "#38445b",
+                lineHeight: 1.5,
+              }}
+              dangerouslySetInnerHTML={{ __html: bio }}
+            />
+          </div>
+        ))}
+      </div>
+
+
+      {/* Page Indicators */}
+      {isMobile && (
+        <div
+          style={{
+            marginTop: "40px",
+            display: "flex",
+            justifyContent: "center",
+            gap: "8px",
+          }}
+        >
+          {experts.map((_, i) => (
+            <span
+              key={i}
+              style={{
+                width: i === current ? "24px" : "10px",
+                height: "10px",
+                borderRadius: "999px",
+                background: i === current ? "#565fb0" : "#ccc",
+                transition: "all 0.3s ease",
+              }}
+            />
+          ))}
         </div>
-
-        {/* (Optional) Right side if you add activities cards later */}
-        {/* <div style={{ flex: 1 }}>...</div> */}
-      </div>
-
-      {/* Quote banner */}
-      <div
-        style={{
-          marginTop: isMobile ? "32px" : "40px",
-          maxWidth: "900px",
-          marginInline: "auto",
-          background: cardBg,
-          borderRadius: "16px",
-          padding: isMobile ? "32px 24px" : "56px 32px",
-          textAlign: "center",
-          boxShadow: "0 6px 14px rgba(0,0,0,.05)",
-          fontSize: isMobile ? "18px" : "20px",
-          lineHeight: 1.6,
-          color: quoteColor,
-          fontFamily: "'Playfair Display', serif",
-        }}
-      >
-        While you're attending the seminar, your child (ages 6–12) will be participating in activities with Milchel alumni — individuals who went through the Happi360 program. Your child will have fun and we guarantee that they will go home feeling rejuvenated!
-      </div>
+      )}
     </section>
   );
 }
