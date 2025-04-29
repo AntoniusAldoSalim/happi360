@@ -45,7 +45,7 @@ export default function Section4() {
           }}
         />
 
-        {/* Carousel dots (static) */}
+        {/* Carousel dots (static)
         <div
           style={{
             position: "absolute",
@@ -67,7 +67,7 @@ export default function Section4() {
               }}
             />
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* ─────── Text block ─────── */}

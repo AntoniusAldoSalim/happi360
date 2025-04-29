@@ -1,15 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import amImg from "../../assets/landing/section7/am.jpg";
 import peImg from "../../assets/landing/section7/p.jpg";
 import oakImg from "../../assets/landing/section7/oak.jpg";
 import pepImg from "../../assets/landing/section7/pep.jpg";
 import coverImg from "../../assets/landing/section7/friends.jpg";
+import Arrow from '../../assets/icons/large-arrow-right.svg';
 
-const headingColour = "#7e2c21";
-const bodyNavy = "#a36253";
-const cardBg = "#ffffff";
-const quoteMark = "#d7c9b8";
+/* Colors */
+/* colour tokens */
+const headingClr = "#7e2c21";
+const bodyClr    = "#a36253";
+const cardBg     = "#ffffff";
+const quoteMark  = "#d7c9b8";
 
 const testimonials = [
   {
@@ -41,18 +44,26 @@ const testimonials = [
     initial: "T",
   },
 ];
-
 export default function Section7() {
-  const [expanded, setExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const visible = expanded ? testimonials : testimonials.slice(0, 3);
+  const [current,   setCurrent] = useState(0);           // active page for mobile dots
+  const scrollRef               = useRef(null);
 
+  /* ───── responsive flag ───── */
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    handleResize(); // initialize immediately
-    return () => window.removeEventListener("resize", handleResize);
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize);
+    onResize();                       // run once at mount
+    return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  /* ───── page tracking only on mobile ───── */
+  const handleScroll = () => {
+    if (!isMobile || !scrollRef.current) return;
+    const scrollLeft = scrollRef.current.scrollLeft;
+    const pageWidth  = scrollRef.current.offsetWidth;      // one “page” = full viewport width
+    setCurrent(Math.round(scrollLeft / pageWidth));
+  };
 
   return (
     <section
@@ -62,16 +73,15 @@ export default function Section7() {
         background: "#fcf9f4",
       }}
     >
-      {/* Heading */}
+      {/* heading */}
       <h2
         style={{
           textAlign: "center",
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
           fontSize: isMobile ? "32px" : "38px",
-          color: headingColour,
+          color: headingClr,
           margin: 0,
-          paddingInline: isMobile ? "12px" : "0",
         }}
       >
         Voices of Our Grown-Up Students
@@ -84,15 +94,14 @@ export default function Section7() {
           margin: "24px auto 56px",
           fontSize: isMobile ? "16px" : "18px",
           lineHeight: 1.6,
-          color: bodyNavy,
-          paddingInline: isMobile ? "12px" : "0",
+          color: bodyClr,
         }}
       >
         The true impact of the Happi360 method is reflected in the lives of those who grew up
-        with it. Here's what some alumni have to say — years after leaving the program.
+        with it. Here’s what our alumni say — even years later.
       </p>
 
-      {/* Cover Image */}
+      {/* cover image */}
       <img
         src={coverImg}
         alt="Alumni friends together"
@@ -103,51 +112,61 @@ export default function Section7() {
           marginInline: "auto",
           borderRadius: "12px",
           boxShadow: "0 8px 18px rgba(0,0,0,.06)",
+          marginBottom: "56px",
         }}
       />
 
-      {/* Testimonials Grid */}
+      {/* ───────── testimonials container ───────── */}
       <div
+        ref={scrollRef}
+        onScroll={handleScroll}
         style={{
-          marginTop: isMobile ? "48px" : "72px",
-          display: "grid",
+          display: "flex",
+          overflowX: isMobile ? "auto" : "visible",
+          scrollSnapType: isMobile ? "x mandatory" : "none",
+          scrollBehavior: "smooth",
+          flexWrap: isMobile ? "nowrap" : "wrap",
+          justifyContent: isMobile ? "flex-start" : "center",
           gap: "24px",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fill, minmax(300px, 1fr))",
-          width: "90%",
-          maxWidth: "1100px",
-          marginInline: "auto",
+          padding: "0 5%",
+          scrollbarWidth: "none",
         }}
+        className="hide-scrollbar"     /* hide WebKit scrollbar via global CSS */
       >
-        {visible.map(({ img, quote, name, initial }) => (
+        {testimonials.map(({ img, quote, name, initial }) => (
           <div
             key={name}
             style={{
               background: cardBg,
               borderRadius: "16px",
-              padding: isMobile ? "32px 24px" : "48px 40px 32px",
-              position: "relative",
+              minWidth: isMobile ? "300px" : "260px",
+              maxWidth: isMobile ? "320px" : "300px",
+              flexShrink: 0,
+              padding: "32px 28px",
+              scrollSnapAlign: isMobile ? "center" : "none",
               boxShadow: "0 6px 14px rgba(0,0,0,.05)",
               display: "flex",
               flexDirection: "column",
-              gap: "24px",
+              alignItems: "center",
+              textAlign: "center",
+              position: "relative",
+              gap: "48px",
             }}
           >
-            {/* Decorative quote mark */}
+            {/* decorative quote mark */}
             <span
               style={{
                 position: "absolute",
-                top: "24px",
-                right: "24px",
-                fontSize: "32px",
-                lineHeight: 1,
+                top: "16px",
+                right: "16px",
+                fontSize: "28px",
                 color: quoteMark,
-                fontFamily: "serif",
               }}
             >
               99
             </span>
 
-            {/* Avatar */}
+            {/* avatar */}
             {img && (
               <img
                 src={img}
@@ -157,35 +176,32 @@ export default function Section7() {
                   height: "74px",
                   borderRadius: "50%",
                   objectFit: "cover",
-                  alignSelf: "center",
                 }}
               />
             )}
 
-            {/* Quote */}
+            {/* quote */}
             <p
               style={{
                 fontStyle: "italic",
-                fontSize: isMobile ? "16px" : "18px",
+                fontSize: "16px",
                 lineHeight: 1.6,
-                color: bodyNavy,
+                color: bodyClr,
                 margin: 0,
-                whiteSpace: "pre-line",
-                textAlign: "center",
               }}
             >
               {quote}
             </p>
 
-            {/* Name */}
-            <div style={{ display: "flex", alignItems: "center", gap: "14px", justifyContent: "center" }}>
+            {/* name */}
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div
                 style={{
                   width: "36px",
                   height: "36px",
                   borderRadius: "50%",
                   background: quoteMark,
-                  color: bodyNavy,
+                  color: bodyClr,
                   fontWeight: 700,
                   display: "flex",
                   alignItems: "center",
@@ -194,55 +210,29 @@ export default function Section7() {
               >
                 {initial}
               </div>
-              <div style={{ fontSize: "16px", color: bodyNavy }}>— <strong>{name}</strong></div>
+              <strong style={{ fontSize: "16px", color: bodyClr }}>– {name}</strong>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Show More Button */}
-      {testimonials.length > 3 && (
-        <div style={{ textAlign: "center", marginTop: "48px" }}>
-          <button
-            onClick={() => setExpanded((prev) => !prev)}
-            style={{
-              border: 0,
-              background: "transparent",
-              color: headingColour,
-              fontSize: "18px",
-              cursor: "pointer",
-              textDecoration: "underline",
-            }}
-          >
-            {expanded ? "Show less" : "Show more"}
-          </button>
+      {/* dot indicators – mobile-only */}
+      {isMobile && (
+        <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginTop: "32px" }}>
+          {testimonials.map((_, i) => (
+            <span
+              key={i}
+              style={{
+                width: i === current ? "24px" : "10px",
+                height: "10px",
+                borderRadius: "999px",
+                background: i === current ? headingClr : quoteMark,
+                transition: "all 0.3s ease",
+              }}
+            />
+          ))}
         </div>
       )}
-
-      {/* CTA Banner */}
-      <div
-        style={{
-          marginTop: isMobile ? "64px" : "96px",
-          background: cardBg,
-          borderRadius: "16px",
-          padding: isMobile ? "32px 24px" : "48px 32px",
-          maxWidth: "900px",
-          marginInline: "auto",
-          textAlign: "center",
-          boxShadow: "0 6px 14px rgba(0,0,0,.05)",
-          fontSize: isMobile ? "16px" : "18px",
-          lineHeight: 1.6,
-          color: bodyNavy,
-          marginBottom: isMobile ? "40px" : "0",
-        }}
-      >
-        Experience the same transformative approach that has shaped these remarkable
-        individuals.
-        <br />
-        <strong>
-          Join us for our special sharing session and discover how your child can benefit too.
-        </strong>
-      </div>
     </section>
   );
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Happi360 favicon – round background -->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512" width="512" height="512">
+
+  <!-- circular white background -->
+  <circle cx="256" cy="256" r="256" fill="#ffffff"/>
+
+  <!-- sun body -->
+  <circle cx="256" cy="320" r="160" fill="#f5a623"/>
+
+  <!-- rays (12 of them, rotated 30° each) -->
+  <g stroke="#f5a623" stroke-width="32" stroke-linecap="round">
+    <line x1="256" y1="64"  x2="256" y2="136"/>
+    <line x1="334" y1="82"  x2="304" y2="148"/>
+    <line x1="396" y1="144" x2="340" y2="188"/>
+    <line x1="430" y1="224" x2="358" y2="224"/>
+    <line x1="396" y1="304" x2="340" y2="260"/>
+    <line x1="334" y1="366" x2="304" y2="300"/>
+    <line x1="256" y1="384" x2="256" y2="312"/>
+    <line x1="178" y1="366" x2="208" y2="300"/>
+    <line x1="116" y1="304" x2="172" y2="260"/>
+    <line x1="82"  y1="224" x2="154" y2="224"/>
+    <line x1="116" y1="144" x2="172" y2="188"/>
+    <line x1="178" y1="82"  x2="208" y2="148"/>
+  </g>
+
+  <!-- eyes -->
+  <circle cx="208" cy="288" r="26" fill="#9d2235"/>
+  <circle cx="304" cy="288" r="26" fill="#9d2235"/>
+
+  <!-- smile -->
+  <path d="M200 336 Q256 392 312 336"
+        stroke="#9d2235" stroke-width="24"
+        stroke-linecap="round" fill="none"/>
+</svg>

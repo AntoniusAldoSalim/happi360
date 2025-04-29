@@ -31,79 +31,75 @@ export default function Section12() {
   }, []);
 
   return (
-    <>
-      <section
+    <section
+      style={{
+        padding: "80px 16px 100px",
+        background: "#ffffff",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      {/* Countdown Box */}
+      <div
         style={{
-          padding: "96px 0 120px",
-          background: "#ffffff",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          background: lilac,
+          padding: "40px 24px",
+          borderRadius: "20px",
+          boxShadow: "0 8px 18px rgba(0,0,0,.05)",
+          textAlign: "center",
+          width: "100%",
+          maxWidth: "480px",
         }}
       >
-        {/* Beautiful Countdown Box */}
-        <div
+        <h3
           style={{
-            background: lilac,
-            padding: "48px 64px",
-            borderRadius: "20px",
-            boxShadow: "0 8px 18px rgba(0,0,0,.05)",
-            textAlign: "center",
-            width: "90%",
-            maxWidth: "500px",
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "26px",
+            fontWeight: 700,
+            color: navy,
+            marginBottom: "24px",
           }}
         >
-          <h3
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "30px",
-              fontWeight: 700,
-              color: navy,
-              marginBottom: "24px",
-            }}
-          >
-            Time Remaining
-          </h3>
+          Time Remaining
+        </h3>
 
-          <div
-            style={{
-              fontSize: "28px",
-              fontWeight: 700,
-              marginBottom: "12px",
-              color: navy,
-            }}
-          >
-            {timeLeft.days ?? 0}d : {timeLeft.hours ?? 0}h : {timeLeft.minutes ?? 0}m
-          </div>
-
-          <div
-            style={{
-              fontSize: "18px",
-              color: navy,
-              marginBottom: "32px",
-            }}
-          >
-            until the event starts
-          </div>
-
-          <div
-            style={{
-              background: "#ffffff",
-              padding: "18px 24px",
-              borderRadius: "12px",
-              fontWeight: 700,
-              fontSize: "20px",
-              color: navy,
-              display: "inline-block",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
-            }}
-          >
-            {seatsLeft} Seats Left
-          </div>
+        <div
+          style={{
+            fontSize: "24px",
+            fontWeight: 700,
+            marginBottom: "12px",
+            color: navy,
+          }}
+        >
+          {timeLeft.days ?? 0}d : {timeLeft.hours ?? 0}h : {timeLeft.minutes ?? 0}m
         </div>
-      </section>
 
+        <div
+          style={{
+            fontSize: "16px",
+            color: navy,
+            marginBottom: "28px",
+          }}
+        >
+          until the event starts
+        </div>
 
-    </>
+        <div
+          style={{
+            background: "#ffffff",
+            padding: "16px 20px",
+            borderRadius: "12px",
+            fontWeight: 700,
+            fontSize: "18px",
+            color: navy,
+            display: "inline-block",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
+          }}
+        >
+          {seatsLeft} Seats Left
+        </div>
+      </div>
+    </section>
   );
 }

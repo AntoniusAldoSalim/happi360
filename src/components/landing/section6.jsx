@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import kulImg from "../../assets/landing/panelist/kul.jpg";
 import praewImg from "../../assets/landing/panelist/praew.jpg";
@@ -12,33 +12,26 @@ const experts = [
     img: kulImg,
     name: "Kulwanee Meedeng (Kul)",
     title: "Senior Product Specialist, Audimed & Medical Product Company Thailand",
-    bio: `Kulwanee is a Senior Product Specialist with 7 years of experience in neurology and medical
-          products at Audimed and Medical Product Company, Thailand. She holds a Master's degree
-          in Biomedical Engineering and has spoken at various product-related conferences,
-          including the Thailand Radiofrequency Ablation Conference at the National Cancer Institute.`,
+    bio: `Kulwanee is a Senior Product Specialist with 7 years of experience in neurology and medical products at Audimed and Medical Product Company, Thailand.`,
   },
   {
     img: praewImg,
     name: "Nichapat Prapasil (Praew)",
     title: "School Consultant, Assumption College Bangkak",
-    bio: `Nichapat has been a school consultant for 12 years, working with Assumption College Bangkrak,
-          Hor Wang School, and Srinakharinwirot University Demonstration School. With a degree in
-          Education Psychology of Guidance, she engages with families to provide additional
-          consultation and guidance, reflecting her commitment to nurturing future generations.`,
+    bio: `Nichapat has been a school consultant for 12 years, working with Assumption College Bangkrak, Hor Wang School, and Srinakharinwirot University Demonstration School.`,
   },
   {
     img: careImg,
     name: "Patsuda Yuthakram (Care)",
     title: "Well-Being Leader, Assumption College Bangkak",
-    bio: `With 12 years of teaching experience at Mater Dei School and OpenSchool for Creatives and
-          Design, Patsuda has worked closely with children from diverse backgrounds. As the well-being
-          leader at her school she oversees students' mental health and guides them toward suitable
-          pathways, fostering resilience and emotional intelligence in children.`,
+    bio: `With 12 years of teaching experience at Mater Dei School and OpenSchool for Creatives and Design, Patsuda has worked closely with children from diverse backgrounds.`,
   },
 ];
 
 export default function Section6() {
   const [isMobile, setIsMobile] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -47,29 +40,40 @@ export default function Section6() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const width = scrollRef.current.offsetWidth;
+      const index = Math.round(scrollLeft / width);
+      setCurrent(index);
+    }
+  };
+
+  const scrollByCard = (dir) => {
+    if (scrollRef.current) {
+      const width = scrollRef.current.offsetWidth;
+      scrollRef.current.scrollBy({ left: dir * width, behavior: "smooth" });
+    }
+  };
+
   return (
-    <section
-      style={{
-        padding: isMobile ? "64px 16px" : "96px 0 120px",
-        background: "#ffffff",
-      }}
-    >
+    <section style={{ padding: "96px 0 120px", background: "#ffffff", position: "relative" }}>
       {/* Heading */}
       <h2
         style={{
           textAlign: "center",
           fontFamily: "'Playfair Display', serif",
           fontWeight: 700,
-          fontSize: isMobile ? "32px" : "38px",
+          fontSize: "38px",
           lineHeight: 1.3,
           color: navy,
           margin: 0,
           maxWidth: "800px",
           marginInline: "auto",
-          paddingInline: isMobile ? "12px" : "0",
+          paddingInline: "16px",
         }}
       >
-        For this seminar, we have invited leading experts in child development. You'll get to meet them in person.
+        For this seminar, we have invited leading experts in child development.
       </h2>
 
       {/* Accent Bar */}
@@ -83,81 +87,112 @@ export default function Section6() {
         }}
       />
 
-      {/* Expert Cards */}
+      {/* Scrollable (Mobile) / Flex Grid (Desktop) */}
       <div
+        ref={scrollRef}
+        onScroll={handleScroll}
         style={{
-          width: "90%",
-          maxWidth: "1100px",
-          marginInline: "auto",
           display: "flex",
-          flexDirection: "column",
-          gap: isMobile ? "48px" : "72px",
+          flexDirection: "row",
+          flexWrap: isMobile ? "nowrap" : "wrap",        // ✅ nowrap for mobile, wrap for desktop
+          justifyContent: isMobile ? "flex-start" : "center",
+          gap: "24px",
+          padding: "0 40px",
+          overflowX: isMobile ? "auto" : "visible",       // ✅ scrolling only mobile
+          scrollSnapType: isMobile ? "x mandatory" : "none",
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none",                         // hide Firefox scrollbar
         }}
+        className="hide-scrollbar" // chrome scrollbar hide
       >
         {experts.map(({ img, name, title, bio }) => (
           <div
             key={name}
             style={{
+              minWidth: isMobile ? "280px" : "320px",
+              maxWidth: isMobile ? "90vw" : "320px",
+              flexShrink: 0,
+              background: "#fff",
+              borderRadius: "16px",
+              boxShadow: "0 8px 18px rgba(0,0,0,.06)",
+              padding: "32px 24px",
+              scrollSnapAlign: isMobile ? "center" : "none",
               display: "flex",
-              flexDirection: isMobile ? "column" : "row",
-              gap: isMobile ? "24px" : "48px",
-              alignItems: isMobile ? "center" : "flex-start",
-              textAlign: isMobile ? "center" : "start",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
             }}
           >
-            {/* Photo */}
             <img
               src={img}
               alt={name}
               style={{
-                width: "180px",
-                height: "240px",
+                width: "150px",
+                height: "200px",
                 objectFit: "cover",
                 borderRadius: "12px",
-                flexShrink: 0,
+                marginBottom: "16px",
               }}
             />
-
-            {/* Text block */}
-            <div style={{ flex: 1, minWidth: "260px" }}>
-              <h3
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  fontWeight: 700,
-                  fontSize: isMobile ? "22px" : "26px",
-                  color: navy,
-                  margin: isMobile ? "16px 0 8px" : "0",
-                }}
-              >
-                {name}
-              </h3>
-
-              <p
-                style={{
-                  fontWeight: 600,
-                  margin: "8px 0 24px",
-                  fontSize: isMobile ? "16px" : "18px",
-                  color: navy,
-                  lineHeight: 1.45,
-                }}
-              >
-                {title}
-              </p>
-
-              <p
-                style={{
-                  fontSize: isMobile ? "15px" : "17px",
-                  lineHeight: 1.6,
-                  color: "#38445b",
-                  margin: 0,
-                }}
-              >
-                {bio}
-              </p>
-            </div>
+            <h3
+              style={{
+                fontFamily: "'Playfair Display', serif",
+                fontWeight: 700,
+                fontSize: "22px",
+                color: navy,
+                margin: "8px 0",
+              }}
+            >
+              {name}
+            </h3>
+            <p
+              style={{
+                fontWeight: 600,
+                fontSize: "16px",
+                color: navy,
+                marginBottom: "16px",
+              }}
+            >
+              {title}
+            </p>
+            <p
+              style={{
+                fontSize: "15px",
+                color: "#38445b",
+                lineHeight: 1.5,
+              }}
+            >
+              {bio}
+            </p>
           </div>
         ))}
       </div>
+
+
+      {/* Page Indicators */}
+      {isMobile && (
+        <div
+          style={{
+            marginTop: "40px",
+            display: "flex",
+            justifyContent: "center",
+            gap: "8px",
+          }}
+        >
+          {experts.map((_, i) => (
+            <span
+              key={i}
+              style={{
+                width: i === current ? "24px" : "10px",
+                height: "10px",
+                borderRadius: "999px",
+                background: i === current ? "#565fb0" : "#ccc",
+                transition: "all 0.3s ease",
+              }}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

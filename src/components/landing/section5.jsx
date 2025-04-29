@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiAward, FiCheckCircle, FiLayers } from "react-icons/fi";
 import mentorsImg from "../../assets/landing/section5.jpg";
 
@@ -40,16 +40,34 @@ const pillars = [
 
 export default function Section5() {
   const [isMobile, setIsMobile] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
-    handleResize(); // initialize immediately
+    handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const scrollLeft = scrollRef.current.scrollLeft;
+      const width = scrollRef.current.offsetWidth;
+      const index = Math.round(scrollLeft / width);
+      setCurrent(index);
+    }
+  };
+
+  const scrollByCard = (dir) => {
+    if (scrollRef.current) {
+      const width = scrollRef.current.offsetWidth;
+      scrollRef.current.scrollBy({ left: dir * width, behavior: "smooth" });
+    }
+  };
+
   return (
-    <section style={{ padding: isMobile ? "64px 16px" : "96px 0 120px", background: "#f7f8fc" }}>
+    <section style={{ padding: isMobile ? "64px 16px" : "96px 0 120px", background: "#f7f8fc", position: "relative" }}>
       {/* Hero Image */}
       <div
         style={{
@@ -67,21 +85,6 @@ export default function Section5() {
           alt="Milchel students engaging with mentors"
           style={{ display: "block", width: "100%", objectFit: "cover" }}
         />
-        <div
-          style={{
-            position: "absolute",
-            insetInlineStart: 0,
-            insetBlockEnd: 0,
-            width: "100%",
-            background: "rgba(0,0,0,.55)",
-            color: "#fff",
-            fontSize: "14px",
-            padding: "6px 12px",
-            textAlign: "center",
-          }}
-        >
-          [Placeholder: Milchel students engaging with mentors]
-        </div>
       </div>
 
       {/* Accent Line */}
@@ -95,26 +98,37 @@ export default function Section5() {
         }}
       />
 
-      {/* Pillar Cards */}
+      {/* Scrollable (Mobile) / Flex Grid (Desktop) */}
       <div
+        ref={scrollRef}
+        onScroll={handleScroll}
         style={{
           marginTop: isMobile ? "48px" : "72px",
-          display: "grid",
-          gap: "32px",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(300px, 1fr))",
-          width: "90%",
-          maxWidth: "1100px",
-          marginInline: "auto",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: isMobile ? "nowrap" : "wrap",
+          justifyContent: isMobile ? "flex-start" : "center",
+          gap: "24px",
+          padding: "0 40px",
+          overflowX: isMobile ? "auto" : "visible",
+          scrollSnapType: isMobile ? "x mandatory" : "none",
+          scrollBehavior: "smooth",
+          scrollbarWidth: "none",
         }}
+        className="hide-scrollbar"
       >
-        {pillars.map(({ icon: Icon, title, items }) => (
+        {pillars.map(({ icon: Icon, title, items }, idx) => (
           <div
             key={title}
             style={{
+              minWidth: isMobile ? "280px" : "300px",
+              maxWidth: isMobile ? "90vw" : "300px",
+              flexShrink: 0,
               background: "#fff",
               borderRadius: "16px",
               boxShadow: "0 8px 18px rgba(0,0,0,.05)",
               padding: isMobile ? "36px 28px" : "48px 40px",
+              scrollSnapAlign: isMobile ? "center" : "none",
               textAlign: "center",
               display: "flex",
               flexDirection: "column",
@@ -170,6 +184,45 @@ export default function Section5() {
           </div>
         ))}
       </div>
+
+      {/* Navigation Buttons (Mobile Only) */}
+      {isMobile && (
+        <div
+          style={{
+            position: "absolute",
+            right: "24px",
+            bottom: "60px",
+            display: "flex",
+            gap: "12px",
+          }}
+        >
+        </div>
+      )}
+
+      {/* Page Indicators */}
+      {isMobile && (
+        <div
+          style={{
+            marginTop: "40px",
+            display: "flex",
+            justifyContent: "center",
+            gap: "12px",
+          }}
+        >
+          {pillars.map((_, i) => (
+            <span
+              key={i}
+              style={{
+                width: i === current ? "24px" : "10px",
+                height: "10px",
+                borderRadius: "999px",
+                background: i === current ? "#565fb0" : "#ccc",
+                transition: "all 0.3s ease",
+              }}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

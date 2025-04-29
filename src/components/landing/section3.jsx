@@ -63,7 +63,8 @@ export default function Section3() {
             style={{
               display: "flex",
               flexDirection: isMobile ? "column" : "row",
-              alignItems: isMobile ? "flex-start" : "center",
+              alignItems: "center", // Always center items vertically
+              justifyContent: isMobile ? "center" : "flex-start", // Center horizontally on mobile
               gap: isMobile ? "16px" : "32px",
               textAlign: isMobile ? "center" : "start",
             }}

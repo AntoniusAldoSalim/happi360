@@ -1,5 +1,8 @@
 import { FiCalendar, FiClock, FiMapPin } from "react-icons/fi";
-import landingimg from "../../assets/landing/G2.jpeg"; 
+import G1 from "../../assets/landing/G1.jpg"; 
+import G2 from "../../assets/landing/G2.jpeg"; 
+import G4 from "../../assets/landing/G4.jpg"; 
+
 import { useEffect, useState } from "react";
 
 const colours = {
@@ -49,13 +52,12 @@ export default function HeroSection() {
         gap: isMobile ? "32px" : "55px",
         background: colours.lilacBg,
         padding: isMobile ? "24px 16px" : "48px 0",
-        marginTop: isMobile ? '5vh' : '10vh',
       }}
     >
       {/* Left Column */}
-      <div style={{ width: isMobile ? "100%" : "650px", maxWidth: "100%", display: "flex", flexDirection: "column" }}>
+      <div style={{ width: isMobile ? "100%" : "650px", maxWidth: "100%", display: "flex", flexDirection: "column", paddingTop: '10vh' }}>
         <img
-          src={landingimg}
+          src={G2}
           alt="Landing"
           style={{ width: "100%", borderRadius: "20px", objectFit: "cover" }}
         />
