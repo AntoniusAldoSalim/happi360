@@ -1,10 +1,12 @@
 import { FiCalendar, FiClock, FiMapPin } from "react-icons/fi";
-import G1 from "../../assets/landing/G1.jpg"; 
+import G1 from "../../assets/landing/HeroImage.webp"; 
 import G2 from "../../assets/landing/G2.jpeg"; 
-import G4 from "../../assets/landing/G4.jpg"; 
+import G4 from "../../assets/landing/G4.webp"; 
 import { useLang } from "../../i18n/LanguageContext";
 import { t }       from "../../i18n/dictionary";
 import { useEffect, useState, useRef } from "react";
+import useTrackSection from "../../hooks/useTrackSection";
+import amplitude from "amplitude-js";           // if you installed the SDK via npm
 
 const colours = {
   navy: "#1d2556",
@@ -15,6 +17,27 @@ const colours = {
 
 export default function HeroSection() {
   const [isMobile, setIsMobile] = useState(false);
+  const ref = useTrackSection("Landing ");   // <- any label you like
+
+  const handleRegisterClick = () => {
+    const amp = (amplitude.getInstance?.()) || window.amplitude?.getInstance?.();
+
+    if (amp?.options?.apiKey) {
+      amp.logEvent("REGISTER CLICK", {
+        lang,
+        section: "Hero Register Button",
+      });
+    } else {
+      // optional queue so we don’t lose the event if the SDK isn’t ready yet
+      window._ampQueue = window._ampQueue || [];
+      window._ampQueue.push({
+        e: "REGISTER CLICK",
+        p: { lang, section: "Hero Register Button" },
+      });
+    }
+
+    window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank");
+  };
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -45,7 +68,7 @@ export default function HeroSection() {
 
   // ---------- Carousel (inside your <HeroSection> or similar) ----------
   const slides = [G1, G2, G4];              // any order you like
-  const SLIDE_MS = 10000;                    // 4-second interval
+  const SLIDE_MS  = 5_000;         // 10 000 ms  (= 10 s)
 
   const [idx, setIdx] = useState(0);
   const trackRef = useRef(null);
@@ -58,6 +81,16 @@ export default function HeroSection() {
       el.style.transform = `translateX(-${idx * 100}%)`;
     }, [idx]);
 
+
+  /* ❷ AUTO-ADVANCE every 10 s */
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIdx(prev => (prev + 1) % slides.length);       // loop back to 0
+    }, SLIDE_MS);
+
+    return () => clearInterval(timer);                  // cleanup on unmount
+  }, []);        
+
   const { lang } = useLang();
   const infoItems = [
     {
@@ -66,7 +99,7 @@ export default function HeroSection() {
       label : t.infoDate[lang],          // dictionary → "Date" | "วันที่"
       value : lang === "en"
               ? "Sunday, 18 May 2025"
-              : "18 พฤษภาคม 2568",
+              : "วันอาทิตย์ที่ 18 พฤษภาคม 2568",
     },
     {
       id   : "time",
@@ -88,6 +121,7 @@ export default function HeroSection() {
   ];
   return (
     <div
+    ref={ref}
       style={{
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
@@ -253,7 +287,7 @@ export default function HeroSection() {
 
           {/* Button */}
           <button
-            onClick={() => window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank")}
+            onClick={handleRegisterClick}
             style={{
               marginTop: "16px",
               width: "100%",

@@ -1,37 +1,50 @@
 import { useState, useEffect, useRef } from "react";
-
 import kulImg from "../../assets/landing/panelist/kul.jpg";
 import praewImg from "../../assets/landing/panelist/praew.jpg";
 import careImg from "../../assets/landing/panelist/care.jpg";
+import { useLang } from "../../i18n/LanguageContext";
+import useTrackSection from "../../hooks/useTrackSection";
+
 
 const navy = "#1d2556";
 const accentColour = "#d29c4b";
 
-const experts = [
-  {
-    img: kulImg,
-    name: "Kulwanee Meedeng (Kul)",
-    title: "Senior Product Specialist, Audimed & Medical Product Company Thailand",
-    bio: `<strong> 7 years of experience </strong> in <strong> neurology </strong> and <strong> medical products </strong>. Master's degree in Biomedical Engineering.`,
-  },
-  {
-    img: praewImg,
-    name: "Nichapat Prapasil (Praew)",
-    title: "Senior Care Supervisor, OpenSchool for Creatives and Design",
-    bio: `<strong>12 years of experience as a consultant.</strong> Degree in Education specializing in Psychology of Guidance. Engaging with families to nurture future generations.`,
-  },
-  {
-    img: careImg,
-    name: "Patsuda Yuthakram (Care)",
-    title: "Head of Care Supervisor, OpenSchool for Creatives and Design",
-    bio: `<strong>12 years of teaching experience</strong> at Mater Dei School and OpenSchool for Creatives and Design, Patsuda has worked closely with children from diverse backgrounds.`,
-  },
-];
-
-export default function Section6() {
+export default function Section9() {
   const [isMobile, setIsMobile] = useState(false);
   const [current, setCurrent] = useState(0);
   const scrollRef = useRef(null);
+  const { lang } = useLang();
+  const trackRef = useTrackSection("Panelist");   
+
+  const experts = [
+    {
+      img: careImg,
+      name: "Patsuda Yuthakram (Care)",
+      title: "Well-Being Leader, OpenSchool for Creatives and Design",
+      bio: {
+        en: `<strong>12 years of teaching experience</strong> at Mater Dei School and OpenSchool for Creatives and Design, Patsuda has worked closely with children from diverse backgrounds.`,
+        th: `ภัทรสุดามีประสบการณ์สอน 12 ปีที่โรงเรียนมาแตร์เดอีวิทยาลัยและ OpenSchool for Creatives and Design โดยทำงานใกล้ชิดกับเด็ก ๆ จากหลากหลายภูมิหลังและวัย เธอรับผิดชอบดูแลสุขภาพจิตของนักเรียนและแนะนำแนวทางที่เหมาะสม ภัทรสุดามุ่งมั่นในการส่งเสริมวินัยและความฉลาดทางอารมณ์ในเด็ก ๆ        `,
+      },
+    },
+    {
+      img: praewImg,
+      name: "Nichapat Prapasil (Praew)",
+      title: "School Consultant, OpenSchool for Creatives and Design",
+      bio: {
+        en: `<strong>12 years of experience as a consultant.</strong> Degree in Education specializing in Psychology of Guidance. Engaging with families to nurture future generations.`,
+        th: `ณิชาภัทรเป็นที่ปรึกษาโรงเรียนมากว่า 12 ปี โดยเคยทำงานร่วมกับโรงเรียนอัสสัมชัญ (บางรัก) โรงเรียนหอวัง โรงเรียนสาธิตมหาวิทยาลัยศรีนครินทรวิโรฒ ประสานมิตร และโรงเรียนโชติวิทย์ เธอสำเร็จการศึกษาปริญญาตรีจากคณะศึกษาศาสตร์ ภาควิชาการแนะแนวและจิตวิทยา มหาวิทยาลัยศรีนครินทรวิโรฒ และมีความหลงใหลในความเป็นอยู่ที่ดีของเด็ก ๆ พร้อมทั้งให้คำปรึกษากับครอบครัวเพื่อเสริมสร้างอนาคตที่ดีให้กับเ`,
+      },
+    },
+    {
+      img: kulImg,
+      name: "Kulwanee Meedeng (Kul)",
+      title: "Senior Product Specialist, Audimed & Medical Product Company Thailand",
+      bio: {
+        en: `<strong>7 years of experience</strong> in <strong>neurology</strong> and <strong>medical products</strong>. Master's degree in Biomedical Engineering.`,
+        th: `<strong>ด้วยประสบการณ์เกือบ</strong> 7 ปีในด้านระบบประสาทและผลิตภัณฑ์ทางการแพทย์ เธอสำเร็จการศึกษาระดับปริญญาโทด้านวิศวกรรมชีวการแพทย์ และเคยเป็นวิทยากรรับเชิญในงานประชุมเกี่ยวกับผลิตภัณฑ์ทางการแพทย์หลายงาน`,
+      },
+    },
+  ];
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -57,7 +70,7 @@ export default function Section6() {
   };
 
   return (
-    <section style={{ padding: "96px 0 120px", background: "#ffffff", position: "relative" }}>
+    <section ref={trackRef} style={{ padding: "96px 0 120px", background: "#ffffff", position: "relative" }}>
       {/* Heading */}
       <h2
         style={{
@@ -73,7 +86,9 @@ export default function Section6() {
           paddingInline: "16px",
         }}
       >
-        For this seminar, we have invited leading experts in child development.
+      {lang ===  "en" ? "We Have Invited Leading Experts In Child Development" 
+      : "ในสัมมนา เราได้เชิญชวนผู้เชี่ยวชาญในด้านการพัฒนาศักยภาพเด็ก คุณจะได้พบกับท่านเหล่านี้โดยตรง"}
+        
       </h2>
 
       {/* Accent Bar */}
@@ -97,7 +112,7 @@ export default function Section6() {
           flexWrap: isMobile ? "nowrap" : "wrap",        // ✅ nowrap for mobile, wrap for desktop
           justifyContent: isMobile ? "flex-start" : "center",
           gap: "24px",
-          padding: "0 40px",
+          padding: "30px 40px",
           overflowX: isMobile ? "auto" : "visible",       // ✅ scrolling only mobile
           scrollSnapType: isMobile ? "x mandatory" : "none",
           scrollBehavior: "smooth",
@@ -161,7 +176,7 @@ export default function Section6() {
                 color: "#38445b",
                 lineHeight: 1.5,
               }}
-              dangerouslySetInnerHTML={{ __html: bio }}
+              dangerouslySetInnerHTML={{ __html: bio[lang] }}
             />
           </div>
         ))}

@@ -1,20 +1,40 @@
 import { useState, useEffect } from "react";
 import groupImg from "../../assets/section3.jpg";
+import { useLang } from "../../i18n/LanguageContext";
+import { t }       from "../../i18n/dictionary";
+
 
 /* brand tokens */
 const headingColour = "#1d2556";
 const factBg = "#e7e9ff"; // pale lilac
 const accentColour = "#d29c4b"; // ochre
 
-const facts = [
-  { tag: "26 Years", text: "Global <strong>experience</strong> in child development" },
-  { tag: ">1,000 Students", text: "Our alumni have grown to be confident, resilient, and empathetic individuals. These <strong>values</strong> are passed on to every new generation of our students." },
-  { tag: "360°", text: "A holistic child-development approach designed specifically for the modern world" },
-];
 
 export default function Section3() {
   const [isMobile, setIsMobile] = useState(false);
-
+  const { lang } = useLang();
+  const facts = [
+    { 
+      tag: "26 Years", 
+      text: lang === "en"
+      ? "Global <strong>experience</strong> in child development" 
+      : "ประสบการณ์จากการพัฒนาเด็กทั่วโลก",
+      
+    },
+    { 
+      tag: ">1,000 Students", 
+      text: lang === "en"
+      ? "Our alumni have grown to be confident, resilient, and empathetic individuals. These <strong>values</strong> are passed on to every new generation of our students." 
+      : "ศิษย์เก่าของเราเติบโตขึ้นมามีความมั่นใจ ความมุ่งมั่นและรู้จักเห็นอกเห็นใจผู้อื่น ซึ่งเป็นคุณค่าที่ส่งต่อให้นักเรียนของเราจากรุ่นสู่รุ่น"
+    },
+    { 
+      tag: "360°", 
+      text: lang === "en"
+      ? "A holistic child-development approach designed specifically for the modern world"
+      : "แนวทางการพัฒนาบุคลิกภาพเด็กแบบครบวงจร ออกแบบมาสำหรับโลกยุคใหม่โดยเฉพาะ"
+    },
+  ];
+  
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);

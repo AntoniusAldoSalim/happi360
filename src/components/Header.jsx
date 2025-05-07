@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLang } from "../i18n/LanguageContext";
+import amplitude from "amplitude-js";           // if you installed the SDK via npm
 
 export default function Header() {
   const [language, setLanguage] = useState("en");
@@ -24,7 +25,25 @@ export default function Header() {
   const flagW  = isMobile ? 28 : 30;       // smaller width
   const flagH  = Math.round(flagW * 0.75); // most flag-cdn PNGs are 4 : 3 → 0.75 height
   const radius = 10;                        // softer corner
+  const handleRegisterClick = () => {
+    const amp = (amplitude.getInstance?.()) || window.amplitude?.getInstance?.();
 
+    if (amp?.options?.apiKey) {
+      amp.logEvent("REGISTER CLICK", {
+        lang,
+        section: "Menu Register Button",
+      });
+    } else {
+      // optional queue so we don’t lose the event if the SDK isn’t ready yet
+      window._ampQueue = window._ampQueue || [];
+      window._ampQueue.push({
+        e: "REGISTER CLICK",
+        p: { lang, section: "Menu Register Button" },
+      });
+    }
+
+    window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank");
+  };
   
   const S = {
     header: {
@@ -93,7 +112,7 @@ export default function Header() {
 
         <button
           style={S.btn}
-          onClick={() => window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank")}
+          onClick={handleRegisterClick}
         >
           {lang === "en" ? "Register Now" : "ลงทะเบียนเลย!"}
         </button>

@@ -1,11 +1,27 @@
 import { useState, useEffect } from "react";
-import section2Img from "../../assets/section2.jpg"; 
+import section2Img from "../../assets/section2.webp"; 
+import { useLang } from "../../i18n/LanguageContext";
+import { t }       from "../../i18n/dictionary";
 
-const headingColour = "#7e2c21"; // deep reddish-brown
+const headingColour = "#1d2556"; // deep reddish-brown
 const accentColour = "#d29c4b";  // warm ochre underline
 
 export default function Section2() {
   const [isMobile, setIsMobile] = useState(false);
+  const { lang } = useLang();
+  const bulletItems = lang === "en"
+  ? [
+      <>How to <strong>communicate</strong> effectively with your child</>,
+      <>How to <strong>manage phone</strong> and digital device usage</>,
+      <>How to instill <strong>discipline</strong> and a <strong>positive</strong> growth <strong>mindset</strong></>,
+      <>How to build <strong>responsibility</strong> and <strong>social skills</strong> in your child</>,
+    ]
+  : [
+      <>วิธีสื่อสารกับลูกอย่างมีประสิทธิภาพ</>,
+      <>วิธีบริหารการใช้โทรศัพท์และอุปกรณ์ดิจิทัลของลูก</>,
+      <>วิธีปลูกฝังวินัยและ Mindset ที่ดีให้ลูก</>,
+      <>วิธีสร้างความรับผิดชอบและทักษะทางสังคมให้กับลูก</>,
+    ];
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -13,6 +29,8 @@ export default function Section2() {
     handleResize(); // initialize immediately
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+
 
   return (
     <section
@@ -34,7 +52,7 @@ export default function Section2() {
           paddingInline: "12px",
         }}
       >
-        "It takes a village to raise a child"
+        {t.sec2Head[lang].split("\n").map((l,i)=><span key={i}>{l}<br/></span>)}
       </h2>
 
       {/* Two-column content */}
@@ -76,20 +94,7 @@ export default function Section2() {
             gap: "24px",
           }}
         >
-          <p>
-            Nowadays, children struggle with <strong>screen addiction, loneliness, and emotional burnout.</strong><br /><br />
-            That's why&nbsp;
-            <a href="https://milchel.com" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", fontWeight: "bold" }}>
-              Milchel
-            </a> 
-            &nbsp;wants to bring a <strong>nurturing, value-based way</strong> to raise children who are both <strong>strong and kind</strong> under the name 
-            <strong>“Happi360”</strong>.
-            
-            <br /><br />
-            Now, for the first time, this proven approach — born in Singapore and rooted in
-            real relationships — is coming to Thailand.
-          </p>
-
+        <p dangerouslySetInnerHTML={{ __html: t.sec2Body[lang] }} />
 
         </div>
       </div>
@@ -105,7 +110,7 @@ export default function Section2() {
         }}
       />
 
-      {/* Bullet points */}
+      {/* Bullet points
       <div
         style={{
           marginTop: "56px",
@@ -125,7 +130,7 @@ export default function Section2() {
             fontFamily: "'Playfair Display', serif",
           }}
         >
-          In just 4 hours, you will learn…
+           {lang === "en" ? "In just 4 hours, you will learn…" : "เพียง 4 ชั่วโมง คุณจะได้เรียนรู้…"}
         </p>
 
         <ul
@@ -141,12 +146,7 @@ export default function Section2() {
             textAlign: isMobile ? "start" : "center",
           }}
         >
-          {[
-            <>How to <strong>communicate</strong> effectively with your child</>,
-            <>How to <strong>manage phone</strong> and digital device usage</>,
-            <>How to instill <strong>discipline</strong> and a <strong>positive</strong> growth <strong>mindset</strong></>,
-            <>How to build <strong>responsibility</strong> and <strong>social skills</strong> in your child</>,
-          ].map((item, idx) => (
+          {bulletItems.map((item, idx) => (
             <li
               key={idx}
               style={{
@@ -171,7 +171,7 @@ export default function Section2() {
           ))}
         </ul>
 
-      </div>
+      </div> */}
     </section>
   );
 }

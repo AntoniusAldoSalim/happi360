@@ -4,9 +4,13 @@ import {
   FiUsers,
   FiStar,
   FiBookOpen,
-  FiCheck,
-  FiGift,
+  FiHelpCircle
 } from "react-icons/fi";
+
+import { useLang } from "../../i18n/LanguageContext";
+import { t }       from "../../i18n/dictionary";
+import useTrackSection from "../../hooks/useTrackSection";
+
 
 const navy = "#1d2556";
 const paleCreamBg = "#fdf7ef";
@@ -14,31 +18,50 @@ const cardBg = "#ffffff";
 const lilacBg = "#e7e9ff";
 const accentBeige = "#f1f3fd";
 
-const items = [
-  {
-    icon: FiMessageSquare,
-    text:
-      '<strong>13:00</strong> - Mildred and Rachel Yong share "New Approaches to Child Development".',
-  },
-  {
-    icon: FiUsers,
-    text:
-      "<strong>14:00</strong> - Experts panel discussion with parent, educator, consultant and Edutech representatives.",
-  },
-  {
-    icon: FiStar,
-    text:
-      "<strong>15:00</strong> - Alumni share their stories.",
-  },
-  {
-    icon: FiBookOpen,
-    text:
-      "<strong>16:00</strong> - Q&A session addressing current challenges in child upbringing.",
-  },
-];
 
-export default function Section8() {
+
+export default function Section5() {
   const [isMobile, setIsMobile] = useState(false);
+  const { lang } = useLang();
+  const trackRef = useTrackSection("What you will gain from this seminar");   
+
+  const items = [
+    {
+      icon: FiMessageSquare,
+      text:
+        lang === "en"
+          ? '<strong>14:00</strong> - Mildred and Rachel Yong share "Raising Happy Children in the Age of AI".'
+          : '<strong>14:00</strong> - Mildred และ Rachel Yong บรรยายในหัวข้อ<br />“เจาะลึกแนวทางพัฒนาเด็กสมัยใหม่”',
+    },
+    {
+      icon: FiStar,
+      text:
+        lang === "en"
+          ? "<strong>14:30</strong> - Alumni share their stories."
+          : "<strong>14:30</strong> - ศิษย์เก่าเล่าเรื่อง",
+    },
+    {
+      icon: FiUsers,
+      text:
+        lang === "en"
+          ? "<strong>15:00</strong> - Experts panel discussion with parent, educator, consultant and Edutech representatives."
+          : "<strong>15:00</strong> - ถกคำถามโดยมีตัวแทนจาก ผู้ปกครอง นักวิชาการ และ ที่ปรึกษา",
+    },
+    {
+      icon: FiBookOpen,
+      text:
+        lang === "en"
+          ? "<strong>16:00</strong> - What is Happi360?"
+          : "<strong>16:00</strong> - Happi360 คืออะไร​...",
+    },
+    {
+      icon: FiHelpCircle,
+      text:
+        lang === "en"
+          ? "<strong>16:30</strong> - Q&A session addressing current challenges in child upbringing."
+          : "<strong>16:30</strong> - Q&A ถามตอบเกี่ยวกับปัญหาที่พบเจอในการเลี้ยงลูกในปัจจุบัน",
+    },
+  ];
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -49,6 +72,7 @@ export default function Section8() {
 
   return (
     <section
+      ref={trackRef}
       style={{
         width: "100%",
         padding: isMobile ? "64px 16px" : "96px 0 120px",
@@ -66,7 +90,9 @@ export default function Section8() {
           margin: isMobile ? "0 20px" : "0px 40px",
         }}
       >
-        What You'll Gain From This Seminar
+        
+      {lang ===  "en" ? "What You'll Gain From This Seminar" : "กำหนดการ"}
+
       </h2>
 
       {/* Bullet Card Container */}
@@ -85,6 +111,24 @@ export default function Section8() {
           gap: isMobile ? "24px" : "32px",
         }}
       >
+
+
+        {/* <p
+          style={{
+            maxWidth: "820px",
+            margin: isMobile ? "24px 0 30px 0px" : "24px 0 30px 60px",
+            textAlign: isMobile ? "center" : 'start',
+            fontSize: isMobile ? "24px" : "24px",
+            lineHeight: 1.6,
+            color: navy,
+            paddingInline: isMobile ? "0px" : "0",
+            fontWeight:'700'
+          }}
+        >
+          {lang ===  "en" ? "Agenda" : "กำหนดการ"}
+        
+        </p> */}
+
         {items.map(({ icon: Icon, text }) => (
           <div
             key={text}
@@ -128,12 +172,12 @@ export default function Section8() {
             lineHeight: 1.6,
             color: navy,
             paddingInline: isMobile ? "0px" : "0",
+
           }}
-        >
-          This seminar is <strong>not</strong> a sales event. It's a space
-          for <strong>connection, sharing, and exploring</strong> modern parenting approaches that empower your
-          children to grow up happy and resilient in today's world.  Any follow-up programs will be completely optional.  Our focus is to learn, reflect, and grow together.
-        </p>
+          dangerouslySetInnerHTML={{ __html: t.sec5note[lang] }}
+
+        />
+
       </div>
     </section>
   );

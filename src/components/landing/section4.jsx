@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import founders2 from "../../assets/landing/Founder2.jpg";
+import { useLang } from "../../i18n/LanguageContext";
+import { t }       from "../../i18n/dictionary";
+import useTrackSection from "../../hooks/useTrackSection";
 
 /* Shared colours */
 const navy = "#1d2556";
@@ -7,6 +10,8 @@ const accentColour = "#d4d9f2";
 
 export default function Section4() {
   const [isMobile, setIsMobile] = useState(false);
+  const { lang } = useLang();
+  const ref = useTrackSection("Founder's Section");
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -17,6 +22,7 @@ export default function Section4() {
 
   return (
     <section
+      ref={ref}
       style={{
         width: "100%",
         padding: isMobile ? "64px 16px" : "96px 0 120px",
@@ -68,7 +74,7 @@ export default function Section4() {
             margin: 0,
           }}
         >
-          Meet the Founders of the Happi360 Program!
+          {lang ===  "en" ?" Meet the Founders of the Happi360 Program!" : "มาพูดคุยกับสองพี่น้องผู้สร้างหลักสูตรนี้!"}
         </h2>
 
         <p
@@ -80,14 +86,10 @@ export default function Section4() {
             maxWidth: "750px",
             marginInline: "auto",
             paddingInline: isMobile ? "8px" : "0",
+            color: "#38445b",
           }}
-        >
-          Mildred and Rachel started <strong> <a href="https://milchel.com" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline", fontWeight:700 }}>Milchel</a></strong> a small dormitory for international students <strong>since 1997</strong>.
-          <br /><br />
-          With a commitment to nurturing <strong>children's values and emotional strength</strong>, their shared vision has positively impacted over 1,000 students <strong>academically, emotionally, mentally, and physically</strong> — inspiring and transforming lives for generations.
-        </p>
-
-
+          dangerouslySetInnerHTML={{ __html: t.sec3Body[lang] }}
+        />
 
         {/* Accent Line */}
         <div

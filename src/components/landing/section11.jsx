@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { FiCheckCircle, FiCalendar, FiMapPin, FiUser, FiPhone } from "react-icons/fi";
+import { useLang } from "../../i18n/LanguageContext";
+import amplitude from "amplitude-js";
 
 /* palette */
 const navy = "#1d2556";
@@ -10,18 +12,22 @@ const paleBg = "#fafafb";
 const cardBg = "#ffffff";
 const textLight = "#7b7e86";
 
-const benefits = [
-  "Only 100 seats available",
-  "Parents and children welcome",
-  "Refreshments will be provided",
-  "No obligation to join future programs",
-];
+const benefits = {
+  en: [
+    "Only 100 seats available",
+    "Parents and children welcome",
+    "Refreshments will be provided",
+    "No obligation to join future programs",
+  ],
+  th: [
+    "เพียง 100 ที่นั่งเท่านั้น",
+    "ยินดีต้อนรับทั้งผู้ปกครองและเด็ก ๆ",
+    "มีของว่างบริการ",
+    "ไม่มีข้อผูกมัดในการเข้าร่วมโปรแกรมในอนาคต",
+  ],
+};
 
-const eventDetails = [
-  { icon: FiCalendar, title: "Date", info: "Sunday, 18th May 2025" },
-  { icon: FiMapPin, title: "Time", info: "13:00 - 17:00" },
-  { icon: FiUser, title: "Venue", info: "Sukhumvit Park, Bangkok - Marriott Executive Apartments", link: "https://g.co/kgs/eqHDqSg" },
-];
+
 
 /***** 2. lightweight Messenger SVG component *****/
 const MessengerSVG = ({ size = 24, color = "#0084FF" }) => (
@@ -41,6 +47,45 @@ const MessengerSVG = ({ size = 24, color = "#0084FF" }) => (
 
 export default function Section11() {
   const [isMobile, setIsMobile] = useState(false);
+  const { lang } = useLang();
+
+  const eventDetails = lang === 'en' ? 
+  [ 
+    { 
+      icon: FiCalendar, 
+      title: "Date", 
+      info: "Sunday, 18th May 2025"
+    },
+    { 
+      icon: FiMapPin, 
+      title: "Time", 
+      info: "13:00 - 17:00" 
+    },
+    { 
+      icon: FiUser, 
+      title: "Venue", 
+      info: "Sukhumvit Park, Bangkok - Marriott Executive Apartments", 
+      link: "https://g.co/kgs/eqHDqSg" 
+    },
+  ] : 
+  [ // Thai Version
+    { 
+      icon: FiCalendar, 
+      title: "วันที่", 
+      info: "18 พฤษภาคม 2568"
+    },
+    { 
+      icon: FiMapPin, 
+      title: "เวลา", 
+      info: "13.00 - 17.00 น." 
+    },
+    { 
+      icon: FiUser, 
+      title: "สถานที่", 
+      info: "Sukhumvit Park, Bangkok - Marriott Executive Apartments", 
+      link: "https://g.co/kgs/eqHDqSg" 
+    },
+  ];
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -48,6 +93,26 @@ export default function Section11() {
     handleResize(); // Initialize immediately
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleRegisterClick = () => {
+    const amp = (amplitude.getInstance?.()) || window.amplitude?.getInstance?.();
+
+    if (amp?.options?.apiKey) {
+      amp.logEvent("REGISTER CLICK", {
+        lang,
+        section: "Bottom Register Button",
+      });
+    } else {
+      // optional queue so we don’t lose the event if the SDK isn’t ready yet
+      window._ampQueue = window._ampQueue || [];
+      window._ampQueue.push({
+        e: "REGISTER CLICK",
+        p: { lang, section: "Bottom Register Button" },
+      });
+    }
+
+    window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank");
+  };
 
   return (
     <section style={{ background: paleBg, padding: isMobile ? "64px 16px" : "96px 0 120px" }}>
@@ -77,7 +142,9 @@ export default function Section11() {
                 margin: 0,
               }}
             >
-              Register for the Event
+              {lang ===  "en" ? "Register for the Event" : "ลงทะเบียนได้เลย ตอนนี้!"}
+
+
             </h2>
             <p
               style={{
@@ -86,16 +153,19 @@ export default function Section11() {
                 marginTop: "16px",
                 color: navy,
               }}
-            >
-              Reserve your seats for the whole family to attend the seminar together. <br />
-              Registration is completely free of charge!
-            </p>
+              dangerouslySetInnerHTML={{
+                __html:
+                  lang === "en"
+                    ? `Reserve your seats for the whole family to attend the seminar together.<br/> <strong>Registration is completely free of charge!</strong>`
+                    : `จองที่นั่งสำหรับครอบครัวของท่านในงานสัมมนานี้ได้เลย<br/><br/><strong>ลงทะเบียนและเข้าร่วมฟรี ไม่มีค่าใช้จ่ายใดๆ !!</strong>`,
+              }}
+            />
           </div>
 
           {/* Benefits */}
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            {benefits.map((item) => (
-              <div key={item} style={{ display: "flex", alignItems: "center", gap: "12px", color: navy }}>
+            {benefits[lang].map((item, idx) => (
+              <div key={idx} style={{ display: "flex", alignItems: "center", gap: "12px", color: navy }}>
                 <FiCheckCircle style={{ color: "#868cff", fontSize: "24px" }} />
                 <span style={{ fontSize: isMobile ? "16px" : "18px" }}>{item}</span>
               </div>
@@ -105,8 +175,8 @@ export default function Section11() {
           {/* Register Button */}
           <div>
             <button
-              onClick={() => window.open("https://forms.gle/9Dcnm78H3qz3oVqr6", "_blank")}
-              style={{
+            onClick={handleRegisterClick}
+            style={{
                 background: btnBg,
                 border: "none",
                 marginTop: "20px",
@@ -119,7 +189,7 @@ export default function Section11() {
                 cursor: "pointer",
               }}
             >
-              Register Now
+              {lang ===  "en" ? "Register Now" : "ลงทะเบียนเลย!"}
             </button>
             <p
               style={{
@@ -187,7 +257,7 @@ export default function Section11() {
       </div>
 
       {/* Contact Us */}
-      <div style={{ marginTop:  isMobile ? "40px": "100px", textAlign: "center", paddingInline: isMobile ? "12px" : "0" }}>
+      <div style={{ marginTop:  isMobile ? "60px": "100px", textAlign: "center", paddingInline: isMobile ? "12px" : "0" }}>
         <h3
           style={{
             fontFamily: "'Playfair Display', serif",

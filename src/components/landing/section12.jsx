@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useLang } from "../../i18n/LanguageContext";
+import useTrackSection from "../../hooks/useTrackSection";
 
 /* colors */
 const navy = "#1d2556";
@@ -8,7 +10,9 @@ const btnBg = "#464e9a";
 export default function Section12() {
   const eventDate = new Date("2025-05-18T13:00:00"); // 18 May 1:00PM
   const [timeLeft, setTimeLeft] = useState({});
-  const [seatsLeft, setSeatsLeft] = useState(63); // Example
+  const [seatsLeft, setSeatsLeft] = useState(82);
+  const { lang } = useLang();
+  const trackRef = useTrackSection("Countdown");   
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -32,6 +36,7 @@ export default function Section12() {
 
   return (
     <section
+      ref={trackRef}
       style={{
         padding: "80px 16px 100px",
         background: "#ffffff",
@@ -61,7 +66,8 @@ export default function Section12() {
             marginBottom: "24px",
           }}
         >
-          Time Remaining
+          {lang ===  "en" ? "Time Remaining" : "เวลาลงทะเบียนที่เหลืออยู่"}
+        
         </h3>
 
         <div
@@ -77,16 +83,6 @@ export default function Section12() {
 
         <div
           style={{
-            fontSize: "16px",
-            color: navy,
-            marginBottom: "28px",
-          }}
-        >
-          until the event starts
-        </div>
-
-        <div
-          style={{
             background: "#ffffff",
             padding: "16px 20px",
             borderRadius: "12px",
@@ -97,8 +93,9 @@ export default function Section12() {
             boxShadow: "0 4px 10px rgba(0,0,0,0.05)",
           }}
         >
-          {seatsLeft} Seats Left
-        </div>
+        {lang === "en"
+          ? `${seatsLeft} Seats Left`
+          : `เหลือแค่ ${seatsLeft} ที่นั่ง`}        </div>
       </div>
     </section>
   );

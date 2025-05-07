@@ -1,44 +1,82 @@
 import { useState, useEffect, useRef } from "react";
 import { FiAward, FiCheckCircle, FiLayers, FiChevronDown } from "react-icons/fi";
-import mentorsImg from "../../assets/landing/G3.jpg";
+import mentorsImg from "../../assets/landing/G3.webp";
+import { useLang } from "../../i18n/LanguageContext";
 
 /* colours */
 const navy      = "#1d2556";
 const paleLilac = "#e7e9ff";
 const accent    = "#d4d9f2";
 
-/* pillar data */
-const pillars = [
-  {
-    icon : FiAward,
-    title: "7 Core Values",
-    items: [
-      "Magnanimous", "Integrity", "Loving-kindness",
-      "Compassionate", "Holistic living", "Effort", "Leadership",
-    ],
-  },
-  {
-    icon : FiCheckCircle,
-    title: "5 Key Traits",
-    items: ["Awareness", "Discipline", "Responsibility", "Perseverance", "Confidence"],
-  },
-  {
-    icon : FiLayers,
-    title: "3-Level Character Care",
-    items: [
-      "Level 1 - Conduct & Character",
-      "Level 2 - Leadership",
-      "Level 3 - Philanthropy & Humanitarian",
-    ],
-  },
-];
 
-export default function Section5() {
+export default function Section6() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [openIdx,  setOpenIdx ] = useState(null);       // which pillar is expanded
+  const [openStates, setOpenStates] = useState([true, true, true]); // all open initially
   const [heights,  setHeights ] = useState([]);         // real scrollHeights
-  const refArray                   = useRef([]);        // refs for each <ul>
 
+  const refArray                   = useRef([]);        // refs for each <ul>
+  const { lang } = useLang();
+
+  /* pillar data */
+  const pillars = [
+    {
+      icon : FiAward,
+      title: "7 Core Values",
+      items: lang === "en"
+      ? [
+          "Magnanimous",
+          "Integrity",
+          "Loving-kindness",
+          "Compassionate",
+          "Holistic living",
+          "Effort",
+          "Leadership",
+        ]
+      : [
+          "Magnanimous (ความใจกว้าง)",
+          "Integrity (ความซื่อสัตย์)",
+          "Loving-kindness (ความกรุณา)",
+          "Compassionate (ความเมตตา)",
+          "Holistic living (การใช้ชีวิต)",
+          "Effort (ความพยายาม)",
+          "Leadership (ความเป็นผู้นำ)",
+        ],
+    },
+    {
+      icon : FiCheckCircle,
+      title: "5 Key Traits",
+      items: lang === "en"
+      ? [
+          "Awareness",
+          "Discipline",
+          "Responsibility",
+          "Perseverance",
+          "Confidence",
+        ]
+      : [
+          "Awareness (การตระหนักรู้)",
+          "Discipline (ความมีวินัย)",
+          "Responsibility (ความรับผิดชอบ)",
+          "Perseverance (ความอุตสาหะ)",
+          "Confidence (ความเชื่อมั่น)",
+        ],
+    },
+    {
+      icon : FiLayers,
+      title: "3-Level Character Care",
+      items: lang === "en"
+      ? [
+          "Level 1 - Conduct & Character",
+          "Level 2 - Leadership",
+          "Level 3 - Philanthropy & Humanitarian",
+        ]
+      : [
+          "ระดับ 1: ความประพฤติและบุคลิกภาพที่ดี",
+          "ระดับ 2: ความเป็นผู้นำ",
+          "ระดับ 3: การทำเพื่อสังคม",
+        ],
+    },
+  ];
 
   /* watch width */
   useEffect(() => {
@@ -90,12 +128,16 @@ export default function Section5() {
         }}
       >
         {pillars.map(({ icon:Icon, title, items }, idx) => {
-          const expanded = openIdx === idx;
-          return (
+        const expanded = openStates[idx];
+        return (
             <div key={title} style={{ borderBottom: "1px solid #e5e5e5" }}>
               {/* clickable header */}
               <button
-                onClick={() => setOpenIdx(expanded ? null : idx)}
+              onClick={() => {
+                const updated = [...openStates];
+                updated[idx] = !expanded;
+                setOpenStates(updated);
+              }}
                 style={{
                   width:"100%", padding: isMobile ? 20 : 28,
                   background:"none", border:"none", cursor:"pointer",

@@ -3,8 +3,12 @@ import { useState, useEffect, useRef } from "react";
 import amImg from "../../assets/landing/section7/am.jpg";
 import peImg from "../../assets/landing/section7/p.jpg";
 import oakImg from "../../assets/landing/section7/oak.jpg";
-import pepImg from "../../assets/landing/section7/pep.jpg";
+import pepImg from "../../assets/landing/section7/pep.webp";
 import coverImg from "../../assets/landing/G6.jpg";
+import { useLang } from "../../i18n/LanguageContext";
+import { t }       from "../../i18n/dictionary";
+import useTrackSection from "../../hooks/useTrackSection";
+
 
 /* Colors */
 /* colour tokens */
@@ -16,37 +20,47 @@ const quoteMark  = "#d7c9b8";
 const testimonials = [
   {
     img: amImg,
-    quote:
-      "Milchel <strong> is family</strong>. There were always brothers, sisters, and friends looking out for one another. They offered many activities that allowed us to develop <strong>leadership, responsibility, and collaboration skills</strong>. I truly enjoyed being part of this nurturing community!",
+    quote: {
+      en : "Milchel <strong> is family</strong>. There were always brothers, sisters, and friends looking out for one another. They offered many activities that allowed us to develop <strong>leadership, responsibility, and collaboration skills</strong>. I truly enjoyed being part of this nurturing community!",
+      th : "Milchel <strong> ไม่ใช่เเค่หอพักหรือที่อยู่ชั่วคราว แต่เป็นเหมือนครอบครัว </strong>  เพื่อน ๆ พี่ ๆ น้อง ๆ คอยดูแลช่วยเหลือกันและกันอยู่เสมอ และยังมีกิจกรรมที่ช่วยพัฒนาบุคลิกภาพอีกด้วย เช่น กิจกรรมนันทนาการ ชมรมกีฬาต่าง ๆ ที่ทำให้เราได้พัฒนาตัวเองในหลากหลายด้าน ไม่ว่าจะเป็นด้านความเป็นผู้นำ ฝึกความรับผิดชอบ การวางแผนงาน และการอยู่ร่วมกับผู้อื่น แฮปปี้มาก ๆ ค่ะ"
+    },
     name: "Boonyawee Boonsongkor (Am)",
     initial: "A",
   },
   {
     img: peImg,
-    quote:
-      "I still think about the moments I stayed at Milchel to this day. They were truly so much fun!. <strong>I learned teamwork, communication, and time management.</strong> Now I can see how much they have influenced my life today.",
+    quote: {
+      en :"I still think about the moments I stayed at Milchel to this day. They were truly so much fun!. <strong>I learned teamwork, communication, and time management.</strong> Now I can see how much they have influenced my life today.",
+      th : "เอาจริง ๆ ทุกวันนี้เรายังคิดถึงกิจกรรมที่เราได้ทำ ใน Milchel นั้นอยู่เลย เพราะมันสนุกมากจริง ๆ นอกจากจะสนุกเเล้ว กิจกรรมยังให้อะไรเราเยอะมาก เราได้เรียนรู้เรื่องการทำงานเป็นทีม การสื่อสารเเละการบริหารเวลา สิ่งเล็ก ๆ เหล่านี้ที่เราอาจจะไม่ได้เห็นค่าในตอนนั้น เเต่เชื่อเถอะว่า ทุกวันนี้ มันส่งผลต่อการใช้ชีวิตของเรามาก ๆ"
+    },
     name: "Chakrid Aussavasirisilp (Pe)",
     initial: "P",
   },
   {
     img: oakImg,
-    quote:
-      "Michel's activities were incredibly beneficial and helped me develop key life skills—like teamwork, collaboration, and effective communication. Beyond that, Michel gave me the chance to meet new friends and build meaningful relationships.",
+    quote: {
+      en :"Michel's activities were incredibly beneficial and helped me develop key life skills—like teamwork, collaboration, and effective communication. Beyond that, Michel gave me the chance to meet new friends and build meaningful relationships.",
+      th : "กิจกรรมของ Milchel ประโยชน์มากและช่วยพัฒนาทักษะสำคัญในชีวิต เช่น การทำงานเป็นทีม การร่วมแรงร่วมใจ และการสื่อสารอย่างมีประสิทธิภาพ นอกจากนี้ Milchel ยังเปิดโอกาสให้ผมได้เจอเพื่อน ๆ และสร้างมิตรภาพที่ดีอีกด้วย"
+    },
     name: "Kankavee Pipatsawetwanan (Oak)",
     initial: "O",
   },
   {
     img: pepImg,
-    quote:
-      "Living at Michel encouraged me to try new activities, meet new people, and step outside my comfort zone. I learned valuable skills that schools don't always teach—like planning, teamwork, cultural awareness, and discipline. These are things I carry with me even now, and I can apply them in many parts of my life.",
+    quote: {
+      en :"Living at Michel encouraged me to try new activities, meet new people, and step outside my comfort zone. I learned valuable skills that schools don't always teach—like planning, teamwork, cultural awareness, and discipline. These are things I carry with me even now, and I can apply them in many parts of my life.",
+      th : "การที่ได้อยู่ Milchel ทำให้เราได้ลองทำกิจกรรมใหม่ ๆ ได้เจอเพื่อน ๆ ได้ออกนอก comfort zone ของตัวเอง และได้เรียนรู้ทักษะที่ไม่ได้ถูกสอนในโรงเรียน เช่นการวางแผน การทำงานกับคนต่างวัฒนธรรม และการมีวินัย เรามองว่าสิ่งที่เราได้ เป็นสิ่งที่จะติดอยู่กับตัวเราไปเรื่อย ๆ เราสามารถนำทักษะเหล่านี้ไปปรับใช้ได้หลากหลายที่"
+    },
     name: "Thornthun Kitjasateanphun (Pep)",
     initial: "P",
   },
 ];
-export default function Section7() {
+export default function Section10() {
   const [isMobile, setIsMobile] = useState(false);
   const [current,   setCurrent] = useState(0);           // active page for mobile dots
-  const scrollRef               = useRef(null);
+  const scrollRef = useRef(null);
+  const { lang } = useLang();
+  const trackRef = useTrackSection("Testimonials");   
 
   /* ───── responsive flag ───── */
   useEffect(() => {
@@ -66,6 +80,7 @@ export default function Section7() {
 
   return (
     <section
+      ref={trackRef}
       style={{
         width: "100%",
         padding: isMobile ? "64px 16px" : "96px 0 120px",
@@ -83,7 +98,8 @@ export default function Section7() {
           margin: 0,
         }}
       >
-        Voices of Our Grown-Up Students
+      {lang ===  "en" ? "Voices of Our Grown-Up Students" : "ศิษย์เก่าเล่าความรู้สึก"}
+        
       </h2>
 
       <p
@@ -96,8 +112,10 @@ export default function Section7() {
           color: bodyClr,
         }}
       >
-        The true impact of the Happi360 method is reflected in the lives of those who grew up
-        with it. Here's what our alumni say — even years later.
+        {lang ===  "en" ? "The true impact of the Happi360 method is reflected in the lives of those who grew up with it. Here's what our alumni say — even years later." : 
+        "หลักสูตร Happi360 ยังอยู่ในชีวิตของเด็ก ๆ ที่ตอนนี้ได้เติบโตมาเป็นผู้ใหญ่ที่มีคุณภาพ แม้เวลาจะผ่านไปหลายปีหลังจากจบหลักสูตรแล้ว และนี่คือคำบอกเล่าจากศิษย์เก่าของเรา —"}
+
+
       </p>
 
       {/* cover image */}
@@ -124,7 +142,7 @@ export default function Section7() {
           overflowX: isMobile ? "auto" : "visible",
           scrollSnapType: isMobile ? "x mandatory" : "none",
           scrollBehavior: "smooth",
-          flexWrap: isMobile ? "nowrap" : "wrap",
+          flexWrap: isMobile ? "nowrap" : "nowrap",
           justifyContent: isMobile ? "flex-start" : "center",
           gap: "24px",
           padding: "0 5%",
@@ -138,8 +156,8 @@ export default function Section7() {
             style={{
               background: cardBg,
               borderRadius: "16px",
-              minWidth: isMobile ? "300px" : "260px",
-              maxWidth: isMobile ? "320px" : "300px",
+              minWidth: isMobile ? "300px" : "220px",
+              maxWidth: isMobile ? "320px" : "25%",
               flexShrink: 0,
               padding: "32px 28px",
               scrollSnapAlign: isMobile ? "center" : "none",
@@ -190,7 +208,7 @@ export default function Section7() {
                 color: bodyClr,
                 margin: 0,
               }}
-              dangerouslySetInnerHTML={{ __html: quote }}
+              dangerouslySetInnerHTML={{ __html: quote[lang] }}
             />
 
             {/* name */}

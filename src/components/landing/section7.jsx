@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import kidsImg from "../../assets/landing/Happy.jpg";
-import { FiStar, FiAward, FiUsers, FiHeart } from "react-icons/fi";
+import kidsImg from "../../assets/landing/Happy.webp";
+import { useLang } from "../../i18n/LanguageContext";
+import { t }       from "../../i18n/dictionary";
 
 const navy = "#1d2556";
 const creamBg = "#f7f8fc";
@@ -11,6 +12,7 @@ const quoteColor = "#5560a3";
 
 export default function Section9() {
   const [isMobile, setIsMobile] = useState(false);
+  const { lang } = useLang();
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -39,7 +41,9 @@ export default function Section9() {
           paddingInline: isMobile ? "12px" : "0",
         }}
       >
-        Let your children join the fun!
+        
+        {lang ===  "en" ? "Let Your Children Join the Fun!" : "พาลูก ๆ ของท่านมาร่วมสนุกกัน!"}
+
       </h2>
 
       {/* Two-column layout */}
@@ -86,9 +90,8 @@ export default function Section9() {
           color: quoteColor,
           fontFamily: "'Playfair Display', serif",
         }}
-      >
-        While you're attending the seminar, <strong>your child (ages 6-12) will be participating in activities with Milchel alumni </strong>— individuals who went through the Happi360 program. <strong>Your child will have fun</strong> and we guarantee that they will go home feeling rejuvenated!
-      </div>
+        dangerouslySetInnerHTML={{ __html: t.sec7Note[lang] }}
+      />
     </section>
   );
 }

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { FiClock, FiTarget, FiActivity, FiGift, FiUser } from "react-icons/fi";
 import G5 from "../../assets/landing/G5.jpg";
+import { useLang } from "../../i18n/LanguageContext";
+import { t }       from "../../i18n/dictionary";
+
 
 const headingClr = "#7e2c21";
 const bodyClr = "#1d2556";
@@ -39,6 +42,7 @@ const points = [
 
 export default function Section10() {
   const [isMobile, setIsMobile] = useState(false);
+  const { lang } = useLang();
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -61,7 +65,9 @@ export default function Section10() {
           paddingInline: isMobile ? "12px" : "0",
         }}
       >
-        Try the 1-Day Kids Experience
+        {lang ===  "en" ? "Try the 1-Day Kids Experience" : "ร่วมคอร์สทดลองหลักสูตร 1 วัน!"}
+
+
       </h2>
 
       {/* Paragraph */}
@@ -75,11 +81,8 @@ export default function Section10() {
           color: bodyClr,
           paddingInline: isMobile ? "12px" : "0",
         }}
-      >
-        For parents who are curious to see the method in action, we're offering a<strong> special
-        1-day mini experience </strong>focused on <strong>reducing excessive screen time</strong>. It's designed to be
-        fun, eye-opening, and practical — using our Happi360 approach.
-      </p>
+        dangerouslySetInnerHTML={{ __html: t.sec8Body[lang] }}
+      />
 
       {/* Grid of Cards */}
       {/* <div
@@ -158,9 +161,8 @@ export default function Section10() {
           color: headingClr,
           marginBottom: isMobile ? "60px" : "80px",
         }}
-      >
-        This optional program is open only to event attendees. Limited slots available — more details will be shared during the session.
-      </div>
+        dangerouslySetInnerHTML={{ __html: t.sec8Note[lang] }}
+      />
 
         {/* Image */}
       <div
